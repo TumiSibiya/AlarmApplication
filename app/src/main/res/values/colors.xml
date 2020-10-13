@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<resources>
+
+  <color name="colorPrimary">#000000</color>
+
+  <color name="colorPrimaryDark">#000000</color>
+
+  <color name="colorAccent">#000000</color>
+
+  <color name ="startbuttoncolor">#0C9C13</color>
+  <color name="pausebuttoncolor">#FD0000</color>
+  <color name="resetbuttoncolor">#FD0000</color>
+
+  <color name="customBackgroubdColor">#000000</color>
+  <color name="hintTextColorLightGrey">#505860</color>
+
+  <color name="clockAccentColor">#00000000</color>
+  <color name="ChronometerAccentColor">#FD0000</color>
+  <color name="CountDownTimerAccentColor">#00FFEA</color>
+  <color name="TitleColor">#B9E3E3E3</color>
+</resources>

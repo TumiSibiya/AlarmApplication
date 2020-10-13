@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Time</string>
+    <string name="startbuttonpress">Start</string>
+    <string name="pausebuttonpress">Pause</string>
+    <string name="resumeButtonPress">Resume</string>>
+    <string name="resetbuttonpress">Reset</string>
+
+    <string name="accessStopwatch">Stopwatch</string>>
+    <string name="accessTimer">Timer</string>>
+
+
+</resources>
