@@ -5,6 +5,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
+
+import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
@@ -75,7 +77,7 @@ public class ClockActivity extends AppCompatActivity {
 
 
         //switchActivityButtons
- /*       buttonAccessTimer.setOnClickListener(new View.OnClickListener() {
+       buttonAccessTimer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 switchActivity = new Intent(ClockActivity.this, TimerActivity.class);
@@ -84,7 +86,7 @@ public class ClockActivity extends AppCompatActivity {
             }
         });
 
- /*       buttonAccessStopwatch.setOnClickListener(new View.OnClickListener() {
+        buttonAccessStopwatch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 switchActivity = new Intent(ClockActivity.this, StopwatchActivity.class);
@@ -92,7 +94,7 @@ public class ClockActivity extends AppCompatActivity {
                 Log.d(TAG, "accessSing StopwatchPressed");
             }
         });
-*/
+
         //displaying time and date on TextView
         digitalTimeTextView.setText(String.valueOf(currentTime));
         dateTextView.setText(String.valueOf(currenDate));
