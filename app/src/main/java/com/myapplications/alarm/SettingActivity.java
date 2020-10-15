@@ -15,21 +15,21 @@ import androidx.appcompat.app.AppCompatActivity;
 public class SettingActivity extends AppCompatActivity {
 
     private static final String TAG = SettingActivity.class.getName();
+
     Switch darkThemeSwitch;
     Switch clockSecondsSwitch;
-    boolean darkThemeSwitchChecked;
-    boolean clockSecondsChecked;
+
+    public boolean darkThemeSwitchChecked;
+    public boolean clockSecondsChecked;
+
     Button closeButton;
-    Bundle bundle;
-    String includeSecondsRequest = "Nothing";
+
+    Changes accessChanges = new Changes();
 
     @Override
     public void onCreate(Bundle saveInstanceState) {
         super.onCreate(saveInstanceState);
         setContentView(R.layout.settinigs_activity_layout);
-
-        bundle = getIntent().getExtras();
-        Log.d(TAG, ".......onCreate();.........include seconds request is " + includeSecondsRequest);
 
         setTitle("Settings");
 
@@ -52,21 +52,23 @@ public class SettingActivity extends AppCompatActivity {
 
             @Override
             public void onCheckedChanged(CompoundButton button, boolean checked) {
-                Changes access = new Changes();
+
+
 
                 if (checked) {
                     clockSecondsChecked = true;
-                    access.settPatten("HH:mm:ss");
+                    accessChanges.settPatten("HH:mm:ss");
 
                     Toast.makeText(SettingActivity.this, "Seconds : " + clockSecondsChecked +
-                            ",change " + access.gettPatten(), Toast.LENGTH_SHORT).show();
+                            ",change " + accessChanges.gettPatten(), Toast.LENGTH_SHORT).show();
 
 
                 } else {
                     clockSecondsChecked = false;
+                    accessChanges.settPatten("HH:mm");
 
                     Toast.makeText(SettingActivity.this, "Seconds : " + clockSecondsChecked +
-                            ",change " + access.gettPatten(), Toast.LENGTH_SHORT).show();
+                            ",change " + accessChanges.gettPatten(), Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -77,14 +79,7 @@ public class SettingActivity extends AppCompatActivity {
         closeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                if (includeSecondsRequest != null && includeSecondsRequest.equals("INCLUDE_SECONDS")) {
-
-                    Intent goBack = new Intent(SettingActivity.this, ClockActivity.class);
-                    goBack.putExtra(includeSecondsRequest, 0);
-                    startActivity(goBack);
-                }
-                Log.d(TAG, ".........cloeOnClickListener().......include seconds request is " + includeSecondsRequest);
+                Log.d(TAG, "on closing tpatten is "+new Changes().gettPatten());
             }
         });
 
@@ -106,9 +101,6 @@ public class SettingActivity extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
-
-        bundle = getIntent().getExtras();
-
 
         SharedPreferences sharedPreferences = getSharedPreferences("prefs", MODE_PRIVATE);
 

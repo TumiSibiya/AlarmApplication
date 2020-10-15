@@ -27,33 +27,47 @@ import static android.widget.Toast.LENGTH_SHORT;
 
 public class TimerActivity extends AppCompatActivity {
 
+
     public long start_time_in_millis = 0;
     public long time_left_in_millis;//= start_time_in_millis;
     public long endTime;
+
+    EditText hourEditText;
     EditText minuteEditText;
+
     TextView timerTextView;
+
     Button buttonStartPauseTimer;
     Button buttonResetTimer;
-    Button buttonCancelSet;
+    Button buttonClearSet;
     Button buttonSet;
+    Button buttonNewTime;
+
     CountDownTimer countDownTimer;
     boolean isRunning;
+
     private String TAG = TimerActivity.class.getName();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.timer_layout);
+        setContentView(R.layout.test_layout);
         setTitle("Timer");
 
+
+        hourEditText = findViewById(R.id.hours_edit_text_id);
         minuteEditText = findViewById(R.id.minute_edit_text_id);
+
         timerTextView = findViewById(R.id.textviewfortimer);
 
         buttonStartPauseTimer = findViewById(R.id.buttonStartPauseTimerId);
         buttonResetTimer = findViewById(R.id.buttonRestTimerId);
 
-        buttonCancelSet = findViewById(R.id.button_cancel_set);
+        buttonClearSet = findViewById(R.id.button_clear_set);
+
         buttonSet = findViewById(R.id.button_set);
+
+        buttonNewTime = findViewById(R.id.button_NewTime_id);
 
         //setButtonActions
         buttonStartPauseTimer.setOnClickListener(new View.OnClickListener() {
@@ -62,7 +76,7 @@ public class TimerActivity extends AppCompatActivity {
                 if (!isRunning) {
                     startCountDownTimer();
                 } else
-                    pauseCounDownTimer();
+                    pauseCountDownTimer();
             }
         });
 
@@ -70,8 +84,8 @@ public class TimerActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 resetCountDownTimer();
-                updateCoundDownTimerTextView();
-                updateInteface();
+                updateCountDownTimerTextView();
+                updateInterface();
             }
         });
 
@@ -79,31 +93,78 @@ public class TimerActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+                tempHideViewVisibilityChangeNewButtonText();
+
+                String hourString = hourEditText.getText().toString();
+
                 String minuteString = minuteEditText.getText().toString();
 
-                if (minuteString.length() == 0) {
-                    Toast.makeText(TimerActivity.this, "Invalid Number", LENGTH_SHORT).show();
-                    return;
+                long total;
+
+                if(hourString.length() == 0){
+
+
+                        if (minuteString.length() == 0) {
+                        Toast.makeText(TimerActivity.this, "Invalid Number", LENGTH_SHORT).show();
+                        return;
+
+                        }else {
+
+                            long minute = Long.parseLong(minuteString) * 60000;
+                            total = minute;
+                            setTime(total);
+
+                        }
+
+                }else {
+
+                    long hour = Long.parseLong(hourString);
+
+                    hour = hour * 360_000 *10;
+
+                    if(minuteString.length() == 0){
+
+                        total = hour;
+
+                        setTime(total);
+
+                    }else{
+
+                        long minute = Long.parseLong(minuteString) * 60000;
+
+                        total = minute + hour;
+
+                        setTime(total);
+
+                    }
+
                 }
 
-                long minute = Long.parseLong(minuteString) * 60000;
-                if (minute == 0) {
-                    Toast.makeText(TimerActivity.this, "Enter positive number", LENGTH_SHORT).show();
-                    return;
-                }
 
-                setTime(minute);
+
                 resetCountDownTimer();
-                updateCoundDownTimerTextView();
-                updateInteface();
+                updateCountDownTimerTextView();
+                updateInterface();
             }
         });
 
-        buttonCancelSet.setOnClickListener(new View.OnClickListener() {
+        buttonClearSet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                hourEditText.getText().clear();
                 minuteEditText.getText().clear();
-                Log.d(TAG, "User cleared minuteEditText");
+
+                Log.d(TAG, "User cleard Edit text");
+            }
+        });
+
+        buttonNewTime.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+
+                tempHideViewVisibilityChangeNewButtonText();
+
             }
         });
     }
@@ -111,6 +172,7 @@ public class TimerActivity extends AppCompatActivity {
     //button actions
     public void setTime(long millis) {
         start_time_in_millis = millis;
+
     }
 
     public void startCountDownTimer() {
@@ -122,24 +184,24 @@ public class TimerActivity extends AppCompatActivity {
             public void onTick(long timeUntillFinish) {
                 time_left_in_millis = timeUntillFinish;
 
-                updateCoundDownTimerTextView();
-                updateInteface();
+                updateCountDownTimerTextView();
+                updateInterface();
             }
 
             @Override
             public void onFinish() {
                 isRunning = false;
-                updateInteface();
+                updateInterface();
             }
         }.start();
         isRunning = true;
     }
 
-    public void pauseCounDownTimer() {
+    public void pauseCountDownTimer() {
         countDownTimer.cancel();
         //buttonStartPauseTimer.setText(R.string.resumeButtonPress);
         isRunning = false;
-        updateInteface();
+        updateInterface();
     }
 
     public void resetCountDownTimer() {
@@ -147,15 +209,14 @@ public class TimerActivity extends AppCompatActivity {
         time_left_in_millis = start_time_in_millis;
 
         isRunning = false;
-        minuteEditText.setVisibility(View.VISIBLE);
-        buttonCancelSet.setVisibility(View.VISIBLE);
-        buttonSet.setVisibility(View.VISIBLE);
-        updateCoundDownTimerTextView();
-        updateInteface();
+
+        updateCountDownTimerTextView();
+        updateInterface();
     }
 
     //udate countdown
-    public void updateCoundDownTimerTextView() {
+    public void updateCountDownTimerTextView() {
+
         int hours = (int) (time_left_in_millis / 1000) / 3600;
         Log.d(TAG, "Hourse returned : " + hours);
 
@@ -176,15 +237,17 @@ public class TimerActivity extends AppCompatActivity {
         }
     }
 
-    void updateInteface() {
+    void updateInterface() {
 
         //if timer is not running do this
         if (!isRunning) {
 
             //if timer is coundown is not yet finished but paused do this
             if (time_left_in_millis != 0 && countDownTimer != null) {
+
                 buttonStartPauseTimer.setText("Start");
                 buttonResetTimer.setVisibility(View.VISIBLE);
+
             } else {//lest fo this
 
                 buttonStartPauseTimer.setText("Start");
@@ -192,20 +255,63 @@ public class TimerActivity extends AppCompatActivity {
 
             }
 
+            /*/if(timerTextView.getVisibility() ==0 ){
+                buttonNewTime.setText("New Time");
+            }else{
+                buttonNewTime.setText("Cancel");
+            }*/
+
 
         } else {//or else if time is running do this
+
             buttonStartPauseTimer.setText("Pause");
             buttonResetTimer.setVisibility(View.INVISIBLE);
 
             if (buttonStartPauseTimer.getText().equals("Pause")) {
-                minuteEditText.setVisibility(View.INVISIBLE);
-                buttonCancelSet.setVisibility(View.INVISIBLE);
-                buttonSet.setVisibility(View.INVISIBLE);
+             //TODO add some cool features on active countdown and buttonStartPause getText(); return Pause and view
             }
 
         }
-        updateCoundDownTimerTextView();
+        updateCountDownTimerTextView();
 
+    }
+    protected  void tempHideViewVisibilityChangeNewButtonText(){
+
+
+        String buttonContent = buttonNewTime.getText().toString();
+
+        if(buttonContent.equalsIgnoreCase("NEW TIME")){
+
+            timerTextView.setVisibility(View.INVISIBLE);
+            buttonStartPauseTimer.setVisibility(View.INVISIBLE);
+            buttonResetTimer.setVisibility(View.INVISIBLE);
+
+            buttonSet.setVisibility(View.VISIBLE);;
+            buttonClearSet.setVisibility(View.VISIBLE);
+
+
+            hourEditText.setVisibility(View.VISIBLE);
+            minuteEditText.setVisibility(View.VISIBLE);
+
+            buttonNewTime.setText("Cancel");
+
+
+        }else if(buttonContent.equalsIgnoreCase("Cancel")){
+
+            timerTextView.setVisibility(View.VISIBLE);
+            buttonStartPauseTimer.setVisibility(View.VISIBLE);
+            buttonResetTimer.setVisibility(View.INVISIBLE);
+
+            buttonSet.setVisibility(View.INVISIBLE);;
+            buttonClearSet.setVisibility(View.INVISIBLE);
+
+
+            hourEditText.setVisibility(View.INVISIBLE);
+            minuteEditText.setVisibility(View.INVISIBLE);
+
+            buttonNewTime.setText("NEW TIME");
+
+        }
     }
 
     //this feature requires attentions
@@ -239,7 +345,7 @@ public class TimerActivity extends AppCompatActivity {
         time_left_in_millis = sharedPrefs.getLong("time_left_in_millis", start_time_in_millis);
         isRunning = sharedPrefs.getBoolean("isRunning", false);
 
-        updateCoundDownTimerTextView();
+        updateCountDownTimerTextView();
 
 
         if (isRunning) {
@@ -250,12 +356,11 @@ public class TimerActivity extends AppCompatActivity {
                 time_left_in_millis = 0;
                 isRunning = false;
             } else {
-                updateCoundDownTimerTextView();
+                updateCountDownTimerTextView();
                 startCountDownTimer();
             }
-            updateInteface();
+            updateInterface();
         }
 
     }
-
 }

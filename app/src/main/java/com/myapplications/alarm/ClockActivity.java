@@ -17,10 +17,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 /*
- *
- *
- *
- * */
+* @Author Tumi Sibiya
+*
+*
+* */
 
 public class ClockActivity extends AppCompatActivity {
 
@@ -44,22 +44,19 @@ public class ClockActivity extends AppCompatActivity {
     String currentTime;
     String currenDate;
 
-    String timePatten = new Changes().gettPatten();
-    String datePatten = new Changes().getdPatten();
+    Changes accessingChanges = new Changes();
+
+    String timePatten = accessingChanges.gettPatten();
+    String datePatten = accessingChanges.getdPatten();
 
     Date date;
-
-    Bundle bundle;
-    String request;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_clock_layout);
-        setContentView(R.layout.activity_clock_layout);
 
         setTitle("Clock");
-
 
         date = new Date();
 
@@ -75,7 +72,7 @@ public class ClockActivity extends AppCompatActivity {
 
         buttonAccessTimer = findViewById(R.id.buttonAccessTimerId);
         buttonAccessStopwatch = findViewById(R.id.buttonAccessStopwatchId);
-        //  buttonOptions = findViewById(R.id.option_button_id);
+
 
         //switchActivityButtons
  /*       buttonAccessTimer.setOnClickListener(new View.OnClickListener() {
@@ -118,20 +115,20 @@ public class ClockActivity extends AppCompatActivity {
 
     public void updateTime() {
 
-
         //String instantPatten = request);
+        String instantPattan = accessingChanges.gettPatten();
 
         //updating time every 1 second / 1000 millis
         SimpleDateFormat instantSimpleDateFormat = new SimpleDateFormat(
-                timePatten, Locale.getDefault());
+                instantPattan, Locale.getDefault());
 
         String instantTime = instantSimpleDateFormat.format(new Date());
 
         if (digitalTimeTextView != null) {
-            digitalTimeTextView.setText(instantTime);
-            //Log.d(TAG, "........digitalTextView Set TO : "+ instantTime);
-        }
 
+            digitalTimeTextView.setText(instantTime);
+
+        }
 
     }
 
@@ -148,10 +145,7 @@ public class ClockActivity extends AppCompatActivity {
         Intent intent;
 
         if ("Settings".equalsIgnoreCase(String.valueOf(items.getTitle()))) {
-
-            intent = new Intent(ClockActivity.this, SettingActivity.class);
-            intent.putExtra("INCLUDE_SECONDS", 0);
-            startActivity(intent);
+            Toast.makeText(this, "Settings under productions ", Toast.LENGTH_SHORT).show();
 
         } else if ("About".equalsIgnoreCase(String.valueOf(items.getTitle()))) {
 
@@ -169,14 +163,6 @@ public class ClockActivity extends AppCompatActivity {
     public void onStart() {
         super.onStart();
 
-        Changes access = new Changes();
-
-        timePatten = access.gettPatten();
-
-        Log.d(TAG, ".......................onStart " + timePatten);
-
-        datePatten = access.getdPatten();
-
         SharedPreferences sharedPreferences = getSharedPreferences("prefs", MODE_PRIVATE);
 
         timePatten = sharedPreferences.getString("timePatten", timePatten);
@@ -191,8 +177,6 @@ public class ClockActivity extends AppCompatActivity {
         SharedPreferences prefs = getSharedPreferences("prefs", MODE_PRIVATE);
         SharedPreferences.Editor simpleEditor = prefs.edit();
 
-        Log.d(TAG, ".......................onStop " + timePatten);
-
         simpleEditor.putString("currentTime", currentTime);
         simpleEditor.putString("currentDate", currentTime);
         simpleEditor.putString("timePatten", timePatten);
@@ -201,16 +185,5 @@ public class ClockActivity extends AppCompatActivity {
         simpleEditor.apply();
 
         updateTime();
-    }/*
-    @Override
-     public void  onRestart(){
-        super.onRestart();;
-
-        SharedPreferences sharedPreferences = getSharedPreferences("prefs" , MODE_PRIVATE);
-
-        timePatten = sharedPreferences.getString("timePatten", timePatten);
-
-        updateTime();
-
-    }*/
+    }
 }
