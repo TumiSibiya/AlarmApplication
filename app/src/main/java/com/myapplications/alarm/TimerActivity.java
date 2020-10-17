@@ -1,5 +1,5 @@
 package com.myapplications.alarm;
-
+import androidx.appcompat.app.AppCompatActivity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -10,18 +10,16 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import java.util.Locale;
 
 import static android.widget.Toast.LENGTH_SHORT;
 /*
  *
- *  TimerActuvuty useses CoundDownTimer class to similate Timer.
+ *  TimerActivity uses CountDownTimer class to simulate Timer.
  *   this class converts System.currentMillis() to hours, minutes and seconds
  *   then display onto textview
  *
- * program by : @authur Tumi Sibiya
+ * program by : @arthur Tumi Sibiya
  *
  * */
 
@@ -51,9 +49,10 @@ public class TimerActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.test_layout);
+        setContentView(R.layout.timer_layout);
         setTitle("Timer");
 
+        Log.d(TAG,"INSIDE CREATE");
 
         hourEditText = findViewById(R.id.hours_edit_text_id);
         minuteEditText = findViewById(R.id.minute_edit_text_id);
@@ -74,7 +73,14 @@ public class TimerActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (!isRunning) {
-                    startCountDownTimer();
+                    if(time_left_in_millis == 0){
+                        Toast.makeText(TimerActivity.this, "Time Up ", Toast.LENGTH_SHORT).show();
+                        buttonNewTime.setVisibility(View.VISIBLE);
+                    }else{
+
+                        startCountDownTimer();
+                    }
+
                 } else
                     pauseCountDownTimer();
             }
@@ -104,17 +110,16 @@ public class TimerActivity extends AppCompatActivity {
                 if(hourString.length() == 0){
 
 
-                        if (minuteString.length() == 0) {
+                    if (minuteString.length() == 0) {
                         Toast.makeText(TimerActivity.this, "Invalid Number", LENGTH_SHORT).show();
                         return;
 
-                        }else {
+                    }else {
 
-                            long minute = Long.parseLong(minuteString) * 60000;
-                            total = minute;
-                            setTime(total);
+                        total = Long.parseLong(minuteString) * 60000;
+                        setTime(total);
 
-                        }
+                    }
 
                 }else {
 
@@ -126,21 +131,15 @@ public class TimerActivity extends AppCompatActivity {
 
                         total = hour;
 
-                        setTime(total);
-
                     }else{
 
                         long minute = Long.parseLong(minuteString) * 60000;
 
                         total = minute + hour;
 
-                        setTime(total);
-
                     }
-
+                    setTime(total);
                 }
-
-
 
                 resetCountDownTimer();
                 updateCountDownTimerTextView();
@@ -155,7 +154,7 @@ public class TimerActivity extends AppCompatActivity {
                 hourEditText.getText().clear();
                 minuteEditText.getText().clear();
 
-                Log.d(TAG, "User cleard Edit text");
+                Log.d(TAG, "User cleared Edit text");
             }
         });
 
@@ -181,8 +180,8 @@ public class TimerActivity extends AppCompatActivity {
 
         countDownTimer = new CountDownTimer(time_left_in_millis, 1000) {
             @Override
-            public void onTick(long timeUntillFinish) {
-                time_left_in_millis = timeUntillFinish;
+            public void onTick(long timeUntilFinish) {
+                time_left_in_millis = timeUntilFinish;
 
                 updateCountDownTimerTextView();
                 updateInterface();
@@ -228,13 +227,12 @@ public class TimerActivity extends AppCompatActivity {
 
         String formattedTimeLeftInMillis;
 
-        if (minutes < 60 && hours == 0) {
+        if (hours == 0) {
             formattedTimeLeftInMillis = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds);
-            timerTextView.setText(formattedTimeLeftInMillis);
         } else {
             formattedTimeLeftInMillis = String.format(Locale.getDefault(), "%02d:%02d:%02d", hours, minutes, seconds);
-            timerTextView.setText(formattedTimeLeftInMillis);
         }
+        timerTextView.setText(formattedTimeLeftInMillis);
     }
 
     void updateInterface() {
@@ -242,34 +240,30 @@ public class TimerActivity extends AppCompatActivity {
         //if timer is not running do this
         if (!isRunning) {
 
-            //if timer is coundown is not yet finished but paused do this
+            //if timer is countdown is not yet finished but paused do this
             if (time_left_in_millis != 0 && countDownTimer != null) {
 
                 buttonStartPauseTimer.setText("Start");
                 buttonResetTimer.setVisibility(View.VISIBLE);
+                buttonNewTime.setVisibility(View.VISIBLE);
 
             } else {//lest fo this
 
                 buttonStartPauseTimer.setText("Start");
                 buttonResetTimer.setVisibility(View.INVISIBLE);
-
+                buttonNewTime.setVisibility(View.INVISIBLE);
             }
-
-            /*/if(timerTextView.getVisibility() ==0 ){
-                buttonNewTime.setText("New Time");
-            }else{
-                buttonNewTime.setText("Cancel");
-            }*/
-
 
         } else {//or else if time is running do this
 
             buttonStartPauseTimer.setText("Pause");
             buttonResetTimer.setVisibility(View.INVISIBLE);
+            buttonNewTime.setVisibility(View.INVISIBLE);
 
             if (buttonStartPauseTimer.getText().equals("Pause")) {
-             //TODO add some cool features on active countdown and buttonStartPause getText(); return Pause and view
+                //TODO add some cool features on active countdown and buttonStartPause getText(); return Pause and view
             }
+
 
         }
         updateCountDownTimerTextView();
@@ -286,7 +280,7 @@ public class TimerActivity extends AppCompatActivity {
             buttonStartPauseTimer.setVisibility(View.INVISIBLE);
             buttonResetTimer.setVisibility(View.INVISIBLE);
 
-            buttonSet.setVisibility(View.VISIBLE);;
+            buttonSet.setVisibility(View.VISIBLE);
             buttonClearSet.setVisibility(View.VISIBLE);
 
 

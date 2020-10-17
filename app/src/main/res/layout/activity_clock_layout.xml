@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".ClockActivity">
 
-
+<!--
     <TextView
         android:id="@+id/textView2"
         android:layout_width="317dp"
@@ -49,12 +49,12 @@
 
     <Button
         android:id="@+id/buttonAccessTimerId"
-        android:layout_width="100dp"
-        android:layout_height="50dp"
-
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="@string/accessTimer"
-        android:textSize="10dp"
+
         android:textColor="@android:color/black"
+        android:background="@android:color/transparent"
 
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -66,12 +66,11 @@
 
     <Button
         android:id="@+id/buttonAccessStopwatchId"
-        android:layout_width="100dp"
-        android:layout_height="50dp"
-
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="@string/accessStopwatch"
-        android:textSize="10dp"
         android:textColor="@android:color/black"
+        android:background="@android:color/transparent"
 
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -95,5 +94,17 @@
         app:layout_constraintTop_toBottomOf="@+id/digit_time_textview_id"
         app:layout_constraintVertical_bias="0.171" />
 
+    <!--<Button
+        android:id="@+id/option_button_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Options"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.903"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.043" />
+`-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
