@@ -44,7 +44,7 @@ public class ClockActivity extends AppCompatActivity {
     SimpleDateFormat simpleDateFormat;
 
     String currentTime;
-    String currenDate;
+    String currentDate;
 
     Changes accessingChanges = new Changes();
 
@@ -66,7 +66,7 @@ public class ClockActivity extends AppCompatActivity {
         simpleDateFormat = new SimpleDateFormat(datePatten, Locale.getDefault());
 
         currentTime = simpleTimeFormat.format(date);
-        currenDate = simpleDateFormat.format(date);
+        currentDate = simpleDateFormat.format(date);
 
 
         digitalTimeTextView = findViewById(R.id.digit_time_textview_id);
@@ -97,7 +97,7 @@ public class ClockActivity extends AppCompatActivity {
 
         //displaying time and date on TextView
         digitalTimeTextView.setText(String.valueOf(currentTime));
-        dateTextView.setText(String.valueOf(currenDate));
+        dateTextView.setText(String.valueOf(currentDate));
 
         //updaters and CountDownTimer
         countDownTimer = new CountDownTimer(System.currentTimeMillis(), 100) {

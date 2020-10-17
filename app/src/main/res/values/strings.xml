@@ -13,6 +13,8 @@
     <string name="hint_hour">hour</string>
     <string name="set">set</string>
     <string name="new_time">NEW TIME</string>
-    <string name="clear">Clear</string>>
+    <string name="clear">Clear</string>
+    <string name="no_time">No Time</string>
+    <string name="no_date">No Date</string>>
 
 </resources>
