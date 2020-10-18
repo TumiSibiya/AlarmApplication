@@ -7,7 +7,6 @@
 
     <string name="accessStopwatch">Stopwatch</string>>
     <string name="accessTimer">Timer</string>
-    <string name="no_time">No Time</string>
     <string name="no_date">No Date</string>
     <string name="hint_minute">minute</string>
     <string name="hint_hour">hour</string>
@@ -15,6 +14,6 @@
     <string name="new_time">NEW TIME</string>
     <string name="clear">Clear</string>
     <string name="no_time">No Time</string>
-    <string name="no_date">No Date</string>>
+
 
 </resources>
