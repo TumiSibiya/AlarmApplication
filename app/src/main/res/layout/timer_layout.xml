@@ -2,31 +2,50 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/countDownTimerLayout"
+    android:id="@+id/cpuntDownTimerLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
-    android:padding="50dp"
-    android:paddingHorizontal="15dp"
-    android:theme="@style/Theme.AppCompat.Light.Dialog.MinWidth">
+    android:padding="5dp"
+    android:paddingHorizontal="1dp">
+
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="364dp"
+        android:layout_height="481dp"
+
+        android:background="@drawable/circular_shape"
+        android:indeterminate="false"
+
+        android:max="1000"
+        android:progress="100"
+
+        android:progressDrawable="@drawable/circular_progress_bar"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.489"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textviewfortimer"
         android:layout_width="200dp"
         android:layout_height="114dp"
         android:gravity="center"
-        android:text=""
+        android:text="0000"
         android:textColor="@android:color/holo_blue_dark"
         android:textSize="50sp"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.36"
+        app:layout_constraintVertical_bias="0.47"
         tools:visibility="invisible" />
-
 
     <Button
         android:id="@+id/buttonStartPauseTimerId"
@@ -34,13 +53,14 @@
         android:layout_height="wrap_content"
 
         android:text="@string/startbuttonpress"
-
+        android:textColor="@android:color/holo_green_dark"
+        android:backgroundTint="@android:color/transparent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/buttonRestTimerId"
-        app:layout_constraintHorizontal_bias="0.577"
+        app:layout_constraintHorizontal_bias="0.746"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.613" />
+        app:layout_constraintVertical_bias="0.6" />
 
     <Button
         android:id="@+id/buttonRestTimerId"
@@ -48,27 +68,29 @@
         android:layout_height="wrap_content"
 
         android:text="@string/resetbuttonpress"
-
+        android:textColor="@android:color/black"
+        android:backgroundTint="@android:color/transparent"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
 
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.808"
+        app:layout_constraintHorizontal_bias="0.696"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.617"
+        app:layout_constraintVertical_bias="0.598"
         tools:visibility="visible" />
 
     <EditText
         android:id="@+id/minute_edit_text_id"
-        android:layout_width="89dp"
-        android:layout_height="76dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
 
         android:ems="10"
         android:gravity="center"
-        android:hint="@string/hint_minute"
+        android:hint="minute"
+        android:textColor="@android:color/holo_green_light"
         android:inputType="number"
-        android:maxLength="4"
+        android:maxLength="2"
 
         android:visibility="invisible"
 
@@ -76,19 +98,19 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.441"
-        tools:visibility="visible"
-        android:autofillHints="1" />
+        app:layout_constraintVertical_bias="0.5"
+        tools:visibility="visible" />
 
     <EditText
         android:id="@+id/hours_edit_text_id"
-        android:layout_width="87dp"
-        android:layout_height="89dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:ems="10"
         android:gravity="center"
-        android:hint="@string/hint_hour"
+        android:hint="hour"
+        android:textColor="@android:color/holo_green_light"
         android:inputType="number"
-        android:maxLength="4"
+        android:maxLength="2"
 
         android:visibility="invisible"
 
@@ -96,26 +118,46 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.227"
-        tools:visibility="visible"
-        android:autofillHints="1" />
+        app:layout_constraintVertical_bias="0.4"
+        tools:visibility="visible" />
+
+    <EditText
+        android:id="@+id/seconds_edit_text_id"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:ems="10"
+        android:gravity="center"
+        android:hint="seconds"
+        android:textColor="@android:color/holo_green_light"
+        android:inputType="number"
+        android:maxLength="2"
+
+        android:visibility="invisible"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.6"
+        tools:visibility="visible" />
 
     <Button
         android:id="@+id/button_set"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
-        android:text="@string/set"
+        android:text="set"
 
         android:textColor="@android:color/holo_blue_dark"
+        android:background="@android:color/transparent"
         android:visibility="invisible"
 
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.888"
+        app:layout_constraintHorizontal_bias="0.829"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.976"
+        app:layout_constraintVertical_bias="0.781"
         tools:visibility="visible" />
 
     <Button
@@ -123,16 +165,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
-        android:text="@string/clear"
+        android:background="@android:color/transparent"
+        android:text="Clear"
         android:textColor="@android:color/holo_blue_dark"
         android:visibility="invisible"
 
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.188"
+        app:layout_constraintHorizontal_bias="0.123"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.976"
+        app:layout_constraintVertical_bias="0.773"
         tools:visibility="visible" />
 
     <Button
@@ -140,14 +183,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
-        android:text="@string/new_time"
+
+        android:text="NEW TIME"
         android:textColor="@android:color/holo_green_dark"
 
+        android:background="@android:color/transparent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.557"
+        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.976" />
+        app:layout_constraintVertical_bias="0.877" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

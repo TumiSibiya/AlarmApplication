@@ -38,6 +38,7 @@ public class StopwatchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.stopwatch_layout);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setTitle("Stopwatch");
 
         TextView ignoreThisTextView = findViewById(R.id.textView2);

@@ -4,11 +4,13 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
+
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ProgressBar;
 
 import java.util.Locale;
 
@@ -32,6 +34,7 @@ public class TimerActivity extends AppCompatActivity {
 
     EditText hourEditText;
     EditText minuteEditText;
+    EditText secondEditText;
 
     TextView timerTextView;
 
@@ -44,18 +47,27 @@ public class TimerActivity extends AppCompatActivity {
     CountDownTimer countDownTimer;
     boolean isRunning;
 
+    ProgressBar timerProgressBar;
+    int progressDivider = 100;
+    int timerProgressBarTime = (int)start_time_in_millis;
+
     private String TAG = TimerActivity.class.getName();
+
+    long total;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.timer_layout);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setTitle("Timer");
 
         Log.d(TAG,"INSIDE CREATE");
 
         hourEditText = findViewById(R.id.hours_edit_text_id);
         minuteEditText = findViewById(R.id.minute_edit_text_id);
+        secondEditText = findViewById(R.id.seconds_edit_text_id);
 
         timerTextView = findViewById(R.id.textviewfortimer);
 
@@ -68,6 +80,8 @@ public class TimerActivity extends AppCompatActivity {
 
         buttonNewTime = findViewById(R.id.button_NewTime_id);
 
+        timerProgressBar = findViewById(R.id.progressBar);
+
         //setButtonActions
         buttonStartPauseTimer.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,7 +89,7 @@ public class TimerActivity extends AppCompatActivity {
                 if (!isRunning) {
                     if(time_left_in_millis == 0){
                         Toast.makeText(TimerActivity.this, "Time Up ", Toast.LENGTH_SHORT).show();
-                        buttonNewTime.setVisibility(View.VISIBLE);
+                        buttonNewTime.setClickable(true);
                     }else{
 
                         startCountDownTimer();
@@ -95,6 +109,7 @@ public class TimerActivity extends AppCompatActivity {
             }
         });
 
+
         buttonSet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -105,42 +120,62 @@ public class TimerActivity extends AppCompatActivity {
 
                 String minuteString = minuteEditText.getText().toString();
 
-                long total;
+                String secondString = secondEditText.getText().toString();
+
+
 
                 if(hourString.length() == 0){
 
 
                     if (minuteString.length() == 0) {
-                        Toast.makeText(TimerActivity.this, "Invalid Number", LENGTH_SHORT).show();
-                        return;
 
-                    }else {
+                        if(secondString.length() == 0) {
+                            Toast.makeText(TimerActivity.this, "Invalid Number", LENGTH_SHORT).show();
+                            return;
+                        }
 
+                        total = Long.parseLong(secondString) * 1000;
+
+
+                    }else if(secondString.length() !=0){
+
+                        long minute = Long.parseLong(minuteString) * 60000;
+                        long second = Long.parseLong(secondString) * 1000;
+
+                        total = minute + second;
+
+                    }else{
                         total = Long.parseLong(minuteString) * 60000;
-                        setTime(total);
-
                     }
+
+                    //total = Long.parseLong(minuteString);
 
                 }else {
 
-                    long hour = Long.parseLong(hourString);
+                    long hour = Long.parseLong(hourString) *  360_000 * 10;
+                    Log.d(TAG, "After parsing hours is now "+ hour);
 
-                    hour = hour * 360_000 *10;
-
-                    if(minuteString.length() == 0){
+                    if(minuteString.length() == 0 && secondString.length() == 0) {
 
                         total = hour;
 
-                    }else{
+                    }else if(secondString.length() == 0){
 
                         long minute = Long.parseLong(minuteString) * 60000;
 
                         total = minute + hour;
 
+                    }else{
+
+                        long minute = Long.parseLong(minuteString) * 60000;
+                        long second = Long.parseLong(secondString) * 1000;
+
+                        total = hour + minute+ second;
                     }
-                    setTime(total);
+
                 }
 
+                setTime(total);
                 resetCountDownTimer();
                 updateCountDownTimerTextView();
                 updateInterface();
@@ -183,12 +218,16 @@ public class TimerActivity extends AppCompatActivity {
             public void onTick(long timeUntilFinish) {
                 time_left_in_millis = timeUntilFinish;
 
+                timerProgressBarTime = (int)(timeUntilFinish / progressDivider);
+                timerProgressBar.setProgress(timerProgressBarTime);
+
                 updateCountDownTimerTextView();
                 updateInterface();
             }
 
             @Override
             public void onFinish() {
+                timerProgressBar.setProgress(0);
                 isRunning = false;
                 updateInterface();
             }
@@ -198,7 +237,6 @@ public class TimerActivity extends AppCompatActivity {
 
     public void pauseCountDownTimer() {
         countDownTimer.cancel();
-        //buttonStartPauseTimer.setText(R.string.resumeButtonPress);
         isRunning = false;
         updateInterface();
     }
@@ -217,21 +255,30 @@ public class TimerActivity extends AppCompatActivity {
     public void updateCountDownTimerTextView() {
 
         int hours = (int) (time_left_in_millis / 1000) / 3600;
-        Log.d(TAG, "Hourse returned : " + hours);
+        Log.d(TAG, "Hours returned : " + hours);
 
         int minutes = (int) ((time_left_in_millis / 1000) % 3600) / 60;
         Log.d(TAG, "Minutes returned :" + minutes);
 
-        int seconds = (int) (time_left_in_millis / 1000) % 60;
-        Log.d(TAG, "econdes returned : " + seconds);
+        int seconds = (int)((time_left_in_millis / 1000) % 60 );
+        Log.d(TAG, "Seconds returned : " + seconds);
 
         String formattedTimeLeftInMillis;
 
         if (hours == 0) {
-            formattedTimeLeftInMillis = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds);
-        } else {
+
+            if(minutes ==0){
+                formattedTimeLeftInMillis = String.format(Locale.getDefault(), "%02d", seconds);
+
+            }else{
+                formattedTimeLeftInMillis = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds);
+            }
+
+        } else{
+
             formattedTimeLeftInMillis = String.format(Locale.getDefault(), "%02d:%02d:%02d", hours, minutes, seconds);
         }
+
         timerTextView.setText(formattedTimeLeftInMillis);
     }
 
@@ -245,20 +292,22 @@ public class TimerActivity extends AppCompatActivity {
 
                 buttonStartPauseTimer.setText("Start");
                 buttonResetTimer.setVisibility(View.VISIBLE);
-                buttonNewTime.setVisibility(View.VISIBLE);
+
 
             } else {//lest fo this
 
                 buttonStartPauseTimer.setText("Start");
                 buttonResetTimer.setVisibility(View.INVISIBLE);
-                buttonNewTime.setVisibility(View.INVISIBLE);
+
             }
+
+            buttonNewTime.setClickable(true);
 
         } else {//or else if time is running do this
 
             buttonStartPauseTimer.setText("Pause");
             buttonResetTimer.setVisibility(View.INVISIBLE);
-            buttonNewTime.setVisibility(View.INVISIBLE);
+            buttonNewTime.setClickable(false);
 
             if (buttonStartPauseTimer.getText().equals("Pause")) {
                 //TODO add some cool features on active countdown and buttonStartPause getText(); return Pause and view
@@ -266,6 +315,7 @@ public class TimerActivity extends AppCompatActivity {
 
 
         }
+        timerProgressBar.setProgress(((int)time_left_in_millis / progressDivider));
         updateCountDownTimerTextView();
 
     }
@@ -286,6 +336,7 @@ public class TimerActivity extends AppCompatActivity {
 
             hourEditText.setVisibility(View.VISIBLE);
             minuteEditText.setVisibility(View.VISIBLE);
+            secondEditText.setVisibility(View.VISIBLE);
 
             buttonNewTime.setText("Cancel");
 
@@ -302,6 +353,7 @@ public class TimerActivity extends AppCompatActivity {
 
             hourEditText.setVisibility(View.INVISIBLE);
             minuteEditText.setVisibility(View.INVISIBLE);
+            secondEditText.setVisibility(View.INVISIBLE);
 
             buttonNewTime.setText("NEW TIME");
 

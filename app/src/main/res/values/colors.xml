@@ -19,4 +19,8 @@
   <color name="ChronometerAccentColor">#FD0000</color>
   <color name="CountDownTimerAccentColor">#00FFEA</color>
   <color name="TitleColor">#B9E3E3E3</color>
+
+  <color name="progressBarColor">#00D7FD</color>
+  <color name="shapeCircleeColor">#F2BDC3C5</color>
+
 </resources>

@@ -10,8 +10,6 @@
         android:theme="@style/Theme.AppCompat.DayNight">
 
 
-
-
         <activity android:name=".ClockActivity"
             android:icon="@+id/icon_group"
             android:screenOrientation="portrait">
@@ -27,14 +25,17 @@
 
 
         <activity android:name=".StopwatchActivity"
+            android:parentActivityName=".ClockActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.DayNight"/>
 
         <activity android:name=".TimerActivity"
+            android:parentActivityName=".ClockActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.DayNight"/>
 
         <activity android:name=".SettingActivity"
+            android:parentActivityName=".ClockActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.DayNight.Dialog.MinWidth"/>
 
