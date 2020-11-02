@@ -1,8 +1,18 @@
 package com.myapplications.alarm;
+
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
+
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+
 import android.content.SharedPreferences;
+
 import android.os.Bundle;
+import android.os.Build;
 import android.os.CountDownTimer;
+
 import android.util.Log;
 
 import android.view.View;
@@ -63,6 +73,8 @@ public class TimerActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setTitle("Timer");
 
+        createNotificationChannel();
+
         Log.d(TAG,"INSIDE CREATE");
 
         hourEditText = findViewById(R.id.hours_edit_text_id);
@@ -108,7 +120,6 @@ public class TimerActivity extends AppCompatActivity {
                 updateInterface();
             }
         });
-
 
         buttonSet.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -206,6 +217,8 @@ public class TimerActivity extends AppCompatActivity {
     //button actions
     public void setTime(long millis) {
         start_time_in_millis = millis;
+        int progressBarMax = (int)( millis / progressDivider);
+        timerProgressBar.setMax(progressBarMax);
 
     }
 
@@ -228,8 +241,10 @@ public class TimerActivity extends AppCompatActivity {
             @Override
             public void onFinish() {
                 timerProgressBar.setProgress(0);
+                notifyUser();
                 isRunning = false;
                 updateInterface();
+
             }
         }.start();
         isRunning = true;
@@ -356,6 +371,34 @@ public class TimerActivity extends AppCompatActivity {
             secondEditText.setVisibility(View.INVISIBLE);
 
             buttonNewTime.setText("NEW TIME");
+
+        }
+    }
+
+    public void notifyUser(){
+
+        final NotificationCompat.Builder notificationCompatBuilder = new NotificationCompat.Builder(this,  "countdownFinished")
+                .setSmallIcon(R.drawable.ice_timer)
+                .setContentTitle("Timer")
+                .setContentText("Countdown timer finished")
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+        final NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(this);
+        notificationManagerCompat.notify(10, notificationCompatBuilder.build());
+
+    }
+    public void createNotificationChannel(){
+
+        if(Build.VERSION.SDK_INT >=  Build.VERSION_CODES.O){
+            CharSequence name = "Timer";
+            String description = "Countdown finished";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+
+            NotificationChannel channel = new NotificationChannel("countdownFinished", name, importance);
+            channel.setDescription(description);
+
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
 
         }
     }

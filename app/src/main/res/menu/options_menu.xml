@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
-
+<!--
     <item android:title="Settings"
         android:id="@+id/setting_item_id">
 
     </item>
+-->
 
     <item android:title="About"
         android:id="@+id/about_item_id">
 
     </item>
 
-    <item android:title="Exit"
+<!--    <item android:title="Exit"
         android:id="@+id/exit_item_id"/>
+-->
 </menu>

@@ -9,7 +9,9 @@ import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,8 +35,8 @@ public class ClockActivity extends AppCompatActivity {
     TextView digitalTimeTextView;
     TextView dateTextView;
 
-    Button buttonAccessTimer;
-    Button buttonAccessStopwatch;
+    ImageButton buttonAccessTimer;
+    ImageButton buttonAccessStopwatch;
     //Button buttonOptions;
 
     Intent switchActivity;
@@ -74,7 +76,6 @@ public class ClockActivity extends AppCompatActivity {
 
         buttonAccessTimer = findViewById(R.id.buttonAccessTimerId);
         buttonAccessStopwatch = findViewById(R.id.buttonAccessStopwatchId);
-
 
         //switchActivityButtons
        buttonAccessTimer.setOnClickListener(new View.OnClickListener() {
@@ -151,10 +152,12 @@ public class ClockActivity extends AppCompatActivity {
 
         } else if ("About".equalsIgnoreCase(String.valueOf(items.getTitle()))) {
 
-            Toast.makeText(this, "about clicked ", Toast.LENGTH_SHORT).show()
+            Intent sintent = new Intent(ClockActivity.this, About.class);
+            startActivity(sintent);
+
             ;
         } else if ("Exit".equals(String.valueOf(items.getTitle()))) {
-            Toast.makeText(this, "Exit", Toast.LENGTH_SHORT).show();
+
         }
 
         return true;

@@ -42,6 +42,7 @@ public class StopwatchActivity extends AppCompatActivity {
         setTitle("Stopwatch");
 
         TextView ignoreThisTextView = findViewById(R.id.textView2);
+
         //chronometer
         chronometer = findViewById(R.id.simplechronometer);
 
@@ -82,7 +83,9 @@ public class StopwatchActivity extends AppCompatActivity {
 
         Log.d("PAUSE_OFFSET IS ", ""+ pauseOffSet);
         if (!running) {
+
             chronometer.setBase( SystemClock.elapsedRealtime() - pauseOffSet);
+
 
             startButton.setText("Start");
             chronometer.start();
@@ -110,7 +113,6 @@ public class StopwatchActivity extends AppCompatActivity {
         chronometer.stop();
 
         startButton.setText("sTART");
-
         chronometer.setBase(SystemClock.elapsedRealtime());
         pauseOffSet = 0;
 
@@ -127,11 +129,13 @@ public class StopwatchActivity extends AppCompatActivity {
             pauseButton.setVisibility(View.INVISIBLE);
             resetButton.setVisibility(View.VISIBLE);
 
+
         } else if (running) {
 
             startButton.setVisibility(View.INVISIBLE);
             pauseButton.setVisibility(View.VISIBLE);
             resetButton.setVisibility(View.VISIBLE);
+
         }
     }
 /*

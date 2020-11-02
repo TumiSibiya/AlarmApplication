@@ -39,6 +39,10 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.DayNight.Dialog.MinWidth"/>
 
+        <activity android:name=".About"
+            android:parentActivityName=".ClockActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.Dialog.MinWidth"/>
 
     </application>
 </manifest>

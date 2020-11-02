@@ -4,23 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    tools:ignore="VectorDrawableCompat"
     tools:context=".ClockActivity">
 
-<!--
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="317dp"
-        android:layout_height="123dp"
-        android:text="CLock"
-        android:textColor="@color/TitleColor"
-        android:textSize="70dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.601"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.065" />
--->
     <Chronometer
         android:id="@+id/updatingTimechronometerid"
         android:layout_width="wrap_content"
@@ -47,36 +33,39 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.35"/>
 
-    <Button
+    <ImageButton
         android:id="@+id/buttonAccessTimerId"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/accessTimer"
         android:textSize="13sp"
         android:textColor="@android:color/black"
+        android:background="@android:color/transparent"
 
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.25"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.90" />
+        app:layout_constraintVertical_bias="0.90"
+        app:srcCompat="@drawable/ice_timer"/>
 
 
-    <Button
+    <ImageButton
         android:id="@+id/buttonAccessStopwatchId"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/accessStopwatch"
         android:textSize="13sp"
         android:textColor="@android:color/black"
-
+        android:background="@android:color/transparent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.725"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.90" />
+        app:layout_constraintVertical_bias="0.90"
+        app:srcCompat="@drawable/ic_stopwatch"/>
 
     <TextView
         android:id="@+id/date_textviewid"
