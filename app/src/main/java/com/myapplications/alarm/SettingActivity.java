@@ -26,6 +26,9 @@ public class SettingActivity extends AppCompatActivity {
 
     Changes accessChanges = new Changes();
 
+    private String checkingString = "HH:mm";
+    private String checkingStringSeconds = "HH:mm:ss";
+
     @Override
     public void onCreate(Bundle saveInstanceState) {
         super.onCreate(saveInstanceState);
@@ -54,22 +57,15 @@ public class SettingActivity extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton button, boolean checked) {
 
 
-
                 if (checked) {
                     clockSecondsChecked = true;
-                    accessChanges.settPatten("HH:mm:ss");
-
-                    Toast.makeText(SettingActivity.this, "Seconds : " + clockSecondsChecked +
-                            ",change " + accessChanges.gettPatten(), Toast.LENGTH_SHORT).show();
-
 
                 } else {
                     clockSecondsChecked = false;
-                    accessChanges.settPatten("HH:mm");
 
-                    Toast.makeText(SettingActivity.this, "Seconds : " + clockSecondsChecked +
-                            ",change " + accessChanges.gettPatten(), Toast.LENGTH_SHORT).show();
                 }
+                Toast.makeText(SettingActivity.this, "Seconds : " + clockSecondsChecked +
+                        ",change " + accessChanges.gettPatten(), Toast.LENGTH_SHORT).show();
 
             }
 
@@ -80,10 +76,16 @@ public class SettingActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Log.d(TAG, "on closing tpatten is "+new Changes().gettPatten());
+
+                Intent intent = new Intent(SettingActivity.this, ClockActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+
             }
         });
 
     }
+
 
     @Override
     public void onStop() {

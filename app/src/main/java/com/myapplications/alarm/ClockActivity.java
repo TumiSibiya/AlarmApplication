@@ -119,11 +119,11 @@ public class ClockActivity extends AppCompatActivity {
     public void updateTime() {
 
         //String instantPatten = request);
-        String instantPattan = accessingChanges.gettPatten();
+        String instantPatten = accessingChanges.gettPatten();
 
         //updating time every 1 second / 1000 millis
         SimpleDateFormat instantSimpleDateFormat = new SimpleDateFormat(
-                instantPattan, Locale.getDefault());
+                instantPatten, Locale.getDefault());
 
         String instantTime = instantSimpleDateFormat.format(new Date());
 
@@ -149,6 +149,10 @@ public class ClockActivity extends AppCompatActivity {
 
         if ("Settings".equalsIgnoreCase(String.valueOf(items.getTitle()))) {
             Toast.makeText(this, "Settings under productions ", Toast.LENGTH_SHORT).show();
+
+            intent = new Intent(this, SettingActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
 
         } else if ("About".equalsIgnoreCase(String.valueOf(items.getTitle()))) {
 
@@ -190,5 +194,6 @@ public class ClockActivity extends AppCompatActivity {
         simpleEditor.apply();
 
         updateTime();
+
     }
 }

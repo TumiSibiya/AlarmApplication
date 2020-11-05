@@ -1,5 +1,6 @@
 package com.myapplications.alarm;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
@@ -23,6 +24,7 @@ import android.widget.Toast;
 import android.widget.ProgressBar;
 
 import java.util.Locale;
+import java.util.Objects;
 
 import static android.widget.Toast.LENGTH_SHORT;
 /*
@@ -58,19 +60,25 @@ public class TimerActivity extends AppCompatActivity {
     boolean isRunning;
 
     ProgressBar timerProgressBar;
-    int progressDivider = 100;
-    int timerProgressBarTime = (int)start_time_in_millis;
+
+    final int timerProgressBarDivider = 100;
+
+    long timerProgressBarMax;
+    long timerProgressBarCurrentTime;
+
 
     private String TAG = TimerActivity.class.getName();
 
     long total;
 
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.timer_layout);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         setTitle("Timer");
 
         createNotificationChannel();
@@ -134,7 +142,6 @@ public class TimerActivity extends AppCompatActivity {
                 String secondString = secondEditText.getText().toString();
 
 
-
                 if(hourString.length() == 0){
 
 
@@ -185,7 +192,6 @@ public class TimerActivity extends AppCompatActivity {
                     }
 
                 }
-
                 setTime(total);
                 resetCountDownTimer();
                 updateCountDownTimerTextView();
@@ -207,9 +213,7 @@ public class TimerActivity extends AppCompatActivity {
         buttonNewTime.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-
                 tempHideViewVisibilityChangeNewButtonText();
-
             }
         });
     }
@@ -217,9 +221,9 @@ public class TimerActivity extends AppCompatActivity {
     //button actions
     public void setTime(long millis) {
         start_time_in_millis = millis;
-        int progressBarMax = (int)( millis / progressDivider);
-        timerProgressBar.setMax(progressBarMax);
-
+        timerProgressBarMax = start_time_in_millis;
+        timerProgressBar.setMax((int)start_time_in_millis);
+        timerProgressBar.setProgress((int)start_time_in_millis);
     }
 
     public void startCountDownTimer() {
@@ -230,21 +234,21 @@ public class TimerActivity extends AppCompatActivity {
             @Override
             public void onTick(long timeUntilFinish) {
                 time_left_in_millis = timeUntilFinish;
-
-                timerProgressBarTime = (int)(timeUntilFinish / progressDivider);
-                timerProgressBar.setProgress(timerProgressBarTime);
+                timerProgressBarCurrentTime = timerProgressBar.getProgress();
 
                 updateCountDownTimerTextView();
                 updateInterface();
+
+                timerProgressBar.setProgress((int)time_left_in_millis);
+
             }
 
             @Override
             public void onFinish() {
                 timerProgressBar.setProgress(0);
-                notifyUser();
                 isRunning = false;
                 updateInterface();
-
+                notifyUser();
             }
         }.start();
         isRunning = true;
@@ -261,7 +265,7 @@ public class TimerActivity extends AppCompatActivity {
         time_left_in_millis = start_time_in_millis;
 
         isRunning = false;
-
+        timerProgressBar.setProgress((int)start_time_in_millis);
         updateCountDownTimerTextView();
         updateInterface();
     }
@@ -308,7 +312,6 @@ public class TimerActivity extends AppCompatActivity {
                 buttonStartPauseTimer.setText("Start");
                 buttonResetTimer.setVisibility(View.VISIBLE);
 
-
             } else {//lest fo this
 
                 buttonStartPauseTimer.setText("Start");
@@ -330,8 +333,9 @@ public class TimerActivity extends AppCompatActivity {
 
 
         }
-        timerProgressBar.setProgress(((int)time_left_in_millis / progressDivider));
+
         updateCountDownTimerTextView();
+        timerProgressBar.setMax((int)timerProgressBarMax);
 
     }
     protected  void tempHideViewVisibilityChangeNewButtonText(){
@@ -404,35 +408,49 @@ public class TimerActivity extends AppCompatActivity {
     }
 
     //this feature requires attentions
-    //delete android:screenOrientation="portrait" on Manifiest for default features or go Auto
+    //delete android:screenOrientation="portrait" on Manifest for default features or go Auto
 
     //save values and state before on stop
     @Override
     public void onStop() {
         super.onStop();
 
+        Log.d(TAG, ".........................................STOPPING");
+
         SharedPreferences prefs = getSharedPreferences("prefs", MODE_PRIVATE);
         SharedPreferences.Editor simpleEditor = prefs.edit();
 
         simpleEditor.putLong("start_time_in_millis", start_time_in_millis);
         simpleEditor.putLong("time_left_in_millis", time_left_in_millis);
+        simpleEditor.putLong("timerProgressBarMax", timerProgressBarMax);
+        simpleEditor.putLong("timerProgressBarCurrentTime", timerProgressBarCurrentTime);
         simpleEditor.putLong("endTime", endTime);
         simpleEditor.putBoolean("isRunning", isRunning);
-
 
         simpleEditor.apply();
 
     }
 
     @Override
+    public void onRestart(){
+        super.onRestart();
+
+        Log.d(TAG, "......................................RESTARTING");
+    }
+    @Override
     public void onStart() {
         super.onStart();
+
+        Log.d(TAG, ".........................................STARTING");
 
         SharedPreferences sharedPrefs = getSharedPreferences("prefs", MODE_PRIVATE);
 
         start_time_in_millis = sharedPrefs.getLong("start_time_in_millis", 0);
         time_left_in_millis = sharedPrefs.getLong("time_left_in_millis", start_time_in_millis);
+        timerProgressBarMax = sharedPrefs.getLong("timerProgressBarMax", timerProgressBarMax);
+        timerProgressBarCurrentTime = sharedPrefs.getLong("timerProgressBarCurrentTime", timerProgressBarCurrentTime);
         isRunning = sharedPrefs.getBoolean("isRunning", false);
+
 
         updateCountDownTimerTextView();
 
@@ -440,16 +458,24 @@ public class TimerActivity extends AppCompatActivity {
         if (isRunning) {
             endTime = sharedPrefs.getLong("endTime", 0);
             time_left_in_millis = endTime - System.currentTimeMillis();
+
             if (time_left_in_millis <= 0) {
 
                 time_left_in_millis = 0;
                 isRunning = false;
+                timerProgressBar.setProgress(0);
             } else {
+
                 updateCountDownTimerTextView();
                 startCountDownTimer();
             }
-            updateInterface();
+
         }
+
+        updateInterface();
+        timerProgressBar.setMax((int)timerProgressBarMax);
+        timerProgressBar.setProgress((int)timerProgressBarCurrentTime);
+
 
     }
 }

@@ -6,9 +6,15 @@ public class Changes {
 
     private final String TAG = Changes.class.getName();
 
-    private StringBuilder tPatten = new StringBuilder("HH:mm:ss");
-    private StringBuilder dPatten = new StringBuilder("dd-MM-yyyy");
+    private String tPatten = "HH:mm:ss";
+    private String dPatten = "dd-MM-yyyy";
 
+
+    public Changes(){}
+
+    public Changes(String tPatten){
+        this.tPatten = tPatten;
+    }
 
     public String gettPatten(){
         return tPatten.toString();
@@ -16,7 +22,7 @@ public class Changes {
 
     public void settPatten(String tPatten) {
 
-        this.tPatten = new StringBuilder(tPatten);
+        this.tPatten = tPatten;
     }
 
 
@@ -26,6 +32,6 @@ public class Changes {
 
     public void setdPatten(String dPatten) {
 
-        this.dPatten = new StringBuilder(dPatten);
+        this.dPatten = dPatten;
     }
 }
