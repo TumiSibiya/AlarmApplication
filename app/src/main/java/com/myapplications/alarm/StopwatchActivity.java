@@ -7,6 +7,7 @@ package com.myapplications.alarm;
 *
 * */
 
+import androidx.appcompat.app.AppCompatActivity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.SystemClock;
@@ -14,21 +15,23 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Chronometer;
+import android.widget.ProgressBar;
 import android.widget.TextView;
-
-import androidx.appcompat.app.AppCompatActivity;
-
-
 public class StopwatchActivity extends AppCompatActivity {
 
     private Chronometer chronometer;
     private boolean running;
     private long pauseOffSet;
+    private long chronometerElapsedRealTime;
 
     //declare buttons
     Button startButton;
     Button pauseButton;
     Button resetButton;
+
+    ProgressBar stopwatchProgressBar;
+    int progressBarMaxTime;
+    int progressBarCurrentTime;
 
     String TAG = StopwatchActivity.class.getName();
 
@@ -41,6 +44,7 @@ public class StopwatchActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setTitle("Stopwatch");
 
+
         TextView ignoreThisTextView = findViewById(R.id.textView2);
 
         //chronometer
@@ -51,20 +55,21 @@ public class StopwatchActivity extends AppCompatActivity {
         pauseButton = findViewById(R.id.pausebutton);
         resetButton = findViewById(R.id.resetbutton);
 
+        stopwatchProgressBar = findViewById(R.id.stopwatchProgressBarId);
 
         //setButtonActions
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startChronometer(view);
-                handleButtonFeatures();
+                updateInterface();
             }
         });
         pauseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 pauseChronometer(view);
-                handleButtonFeatures();
+                updateInterface();
             }
         });
 
@@ -72,9 +77,13 @@ public class StopwatchActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 resetChronometer(view);
-                handleButtonFeatures();
+                updateInterface();
             }
         });
+
+        stopwatchProgressBar.setMax(10);
+        stopwatchProgressBar.setProgress(10);
+
 
     }
 
@@ -86,26 +95,23 @@ public class StopwatchActivity extends AppCompatActivity {
 
             chronometer.setBase( SystemClock.elapsedRealtime() - pauseOffSet);
 
+            chronometerElapsedRealTime = SystemClock.elapsedRealtime() - pauseOffSet;
 
             startButton.setText("Start");
             chronometer.start();
+
             running = true;
         }
-        handleButtonFeatures();
     }
 
     public void pauseChronometer(View view) {
         if (running) {
 
             startButton.setText("Resume");
-
             pauseOffSet = SystemClock.elapsedRealtime() - chronometer.getBase();
-
             chronometer.stop();
             running = false;
         }
-
-        handleButtonFeatures();
     }
 
     public void resetChronometer(View view) {
@@ -114,14 +120,16 @@ public class StopwatchActivity extends AppCompatActivity {
 
         startButton.setText("sTART");
         chronometer.setBase(SystemClock.elapsedRealtime());
+        chronometerElapsedRealTime = SystemClock.elapsedRealtime();
         pauseOffSet = 0;
 
         running = false;
 
-        handleButtonFeatures();
     }
 
-    void handleButtonFeatures() {
+    void updateInterface() {
+
+        stopwatchProgressBar.setMax(10);
 
         if (!running) {
 
@@ -135,30 +143,9 @@ public class StopwatchActivity extends AppCompatActivity {
             startButton.setVisibility(View.INVISIBLE);
             pauseButton.setVisibility(View.VISIBLE);
             resetButton.setVisibility(View.VISIBLE);
-
         }
+        Log.d(TAG, "chronometer ElapsedReal Time " + chronometerElapsedRealTime);
     }
-/*
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-
-        outState.putLong("pauseOffSetKey", pauseOffSet);
-        outState.putBoolean("runningKey", running);
-
-        handleButtonFeatures();
-    }
-
-    @Override
-    public void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-
-        pauseOffSet = savedInstanceState.getLong("pauseOffSetKey");
-        running = savedInstanceState.getBoolean("runningKey");
-
-
-        handleButtonFeatures();
-    }*/
 
 
     long base;
@@ -166,17 +153,18 @@ public class StopwatchActivity extends AppCompatActivity {
     @Override
     public void onStop(){
         super.onStop();
+
+
         SharedPreferences prefs = getSharedPreferences("prefs", MODE_PRIVATE);
         SharedPreferences.Editor simpleEditor = prefs.edit();
 
-        base = chronometer.getBase();
+        simpleEditor.putLong("chronometerElapsedRealTime", chronometerElapsedRealTime);
+        simpleEditor.putLong("pauseOffSet", pauseOffSet);
 
-        simpleEditor.putLong("base", base);
-        simpleEditor.putLong("pauseOffSet",pauseOffSet);
         simpleEditor.putBoolean("running", running);
 
-        handleButtonFeatures();
         simpleEditor.apply();
+
     }
 
     @Override
@@ -185,15 +173,28 @@ public class StopwatchActivity extends AppCompatActivity {
 
         SharedPreferences sharedPreferences = getSharedPreferences("prefs", MODE_PRIVATE);
 
-        base = sharedPreferences.getLong("'base", base);
-
+        chronometerElapsedRealTime = sharedPreferences.getLong("chronometerElapsedRealTime",
+                chronometerElapsedRealTime);
         pauseOffSet = sharedPreferences.getLong("pauseOffSet", pauseOffSet);
         running = sharedPreferences.getBoolean("running", running);
 
-        handleButtonFeatures();
+        //just keeping the chronometer on previous time
+        chronometer.setBase(SystemClock.elapsedRealtime() - pauseOffSet);;
+
+        if(running){
+
+            //actually setting chronometer base onto previous time
+            chronometer.setBase(chronometerElapsedRealTime);
+            chronometer.start();
+            running = true;
+
+        }else {
+            chronometer.stop();
+            running = false;
+        }
+
+        updateInterface();
     }
-    @Override
-    public void onRestart(){
-        super.onRestart();
-    }
+
+
 }

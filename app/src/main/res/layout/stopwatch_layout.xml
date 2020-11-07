@@ -7,7 +7,7 @@
     android:id="@+id/timerLayoutId"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#E1E1E1"
+    android:background="@android:color/background_light"
     android:theme="@style/Theme.AppCompat.DayNight.Dialog.MinWidth">
 
 
@@ -24,61 +24,61 @@
         app:layout_constraintVertical_bias="0.411" />
 
     <Button
-    android:id="@+id/startbutton"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:background="@android:color/transparent"
-    android:onClick="startChronometer"
-    android:soundEffectsEnabled="true"
-    android:text="@string/startbuttonpress"
-    android:textColor="@color/startbuttoncolor"
-    android:visibility="visible"
+        android:id="@+id/startbutton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/stopwatch_start_button_curved"
+        android:onClick="startChronometer"
+        android:soundEffectsEnabled="true"
+        android:text="@string/startbuttonpress"
+        android:textColor="#000000"
+        android:visibility="visible"
 
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintHorizontal_bias="0.684"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent"
-    app:layout_constraintVertical_bias="0.55"
-    tools:visibility="invisible" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.684"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.55"
+        tools:visibility="invisible" />
 
-<Button
-    android:id="@+id/pausebutton"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:background="@android:color/transparent"
-    android:onClick="pauseChronometer"
-    android:soundEffectsEnabled="true"
-    android:text="@string/pausebuttonpress"
-    android:textColor="@color/pausebuttoncolor"
-    android:visibility="invisible"
+    <Button
+        android:id="@+id/pausebutton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/stopwatch_pause_curve"
+        android:onClick="pauseChronometer"
+        android:soundEffectsEnabled="true"
+        android:text="@string/pausebuttonpress"
+        android:textColor="#020202"
+        android:visibility="invisible"
 
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintHorizontal_bias="0.312"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent"
-    app:layout_constraintVertical_bias="0.55"
-    tools:visibility="visible" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.312"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.55"
+        tools:visibility="visible" />
 
-<Button
-    android:id="@+id/resetbutton"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:background="@android:color/transparent"
-    android:onClick="resetChronometer"
-    android:soundEffectsEnabled="false"
-    android:text="@string/resetbuttonpress"
-    android:textColor="@color/resetbuttoncolor"
-    android:visibility="invisible"
+    <Button
+        android:id="@+id/resetbutton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/global_curve_button"
+        android:onClick="resetChronometer"
+        android:soundEffectsEnabled="false"
+        android:text="@string/resetbuttonpress"
+        android:textColor="@color/colorPrimaryDark"
+        android:visibility="invisible"
 
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintHorizontal_bias="0.498"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent"
-    app:layout_constraintVertical_bias="0.661"
-    tools:visibility="visible" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.661"
+        tools:visibility="visible" />
 
     <TextView
         android:id="@+id/textView2"
@@ -94,17 +94,19 @@
         app:layout_constraintVertical_bias="0.904" />
 
     <ProgressBar
-        android:id="@+id/progressBar2"
+        android:id="@+id/stopwatchProgressBarId"
         style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="403dp"
-        android:layout_height="633dp"
-        android:foreground="@drawable/stopwatch_shape"
+        android:layout_width="346dp"
+        android:layout_height="513dp"
+        android:background="@drawable/stopwatch_shape"
+        android:progressDrawable="@drawable/stopwatch_progress_bar"
 
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/textView2"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.492"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.633" />
+        app:layout_constraintVertical_bias="0.511" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

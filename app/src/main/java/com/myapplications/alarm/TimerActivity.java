@@ -61,11 +61,10 @@ public class TimerActivity extends AppCompatActivity {
 
     ProgressBar timerProgressBar;
 
-    final int timerProgressBarDivider = 100;
+    final int timerProgressBarDivider = 10000;
 
     long timerProgressBarMax;
     long timerProgressBarCurrentTime;
-
 
     private String TAG = TimerActivity.class.getName();
 
@@ -73,6 +72,7 @@ public class TimerActivity extends AppCompatActivity {
 
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -101,6 +101,7 @@ public class TimerActivity extends AppCompatActivity {
         buttonNewTime = findViewById(R.id.button_NewTime_id);
 
         timerProgressBar = findViewById(R.id.progressBar);
+        timerProgressBar.setProgress(0);;
 
         //setButtonActions
         buttonStartPauseTimer.setOnClickListener(new View.OnClickListener() {
