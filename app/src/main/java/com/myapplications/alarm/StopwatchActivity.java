@@ -8,9 +8,18 @@ package com.myapplications.alarm;
 * */
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
+
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+
 import android.content.SharedPreferences;
+
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.os.Build;
+
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -44,6 +53,7 @@ public class StopwatchActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setTitle("Stopwatch");
 
+        createNotification();
 
         TextView ignoreThisTextView = findViewById(R.id.textView2);
 
@@ -147,13 +157,39 @@ public class StopwatchActivity extends AppCompatActivity {
         Log.d(TAG, "chronometer ElapsedReal Time " + chronometerElapsedRealTime);
     }
 
+    public void createNotification(){
 
-    long base;
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ){
+
+            CharSequence name = "Stopwatch";
+            String description = "Stopwatch running ";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+
+            NotificationChannel channel = new NotificationChannel("stopwatchId", name, importance);
+            channel.setDescription(description);
+
+            NotificationManager manager = getSystemService(NotificationManager.class);
+            manager.createNotificationChannel(channel);
+
+        }
+    }
+
 
     @Override
     public void onStop(){
         super.onStop();
 
+        if(running) {
+
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "stopwatchId")
+                    .setSmallIcon(R.drawable.ic_stopwatch)
+                    .setContentTitle("Stopwatch")
+                    .setContentText("Stopwatch running")
+                    .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+            NotificationManagerCompat managerCompat = NotificationManagerCompat.from(this);
+            managerCompat.notify(110, builder.build());
+        }
 
         SharedPreferences prefs = getSharedPreferences("prefs", MODE_PRIVATE);
         SharedPreferences.Editor simpleEditor = prefs.edit();
