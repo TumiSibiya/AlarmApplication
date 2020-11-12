@@ -1,6 +1,6 @@
 package com.myapplications.alarm;
 
-/**
+/*
  * Thins Activity uses chronometer to simulate StopwatchActivity
  * behaviour.
 * @author Tumi Sibiya
@@ -13,8 +13,10 @@ import androidx.core.app.NotificationManagerCompat;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 
 import android.content.SharedPreferences;
+import android.content.Intent;
 
 import android.os.Bundle;
 import android.os.SystemClock;
@@ -165,7 +167,7 @@ public class StopwatchActivity extends AppCompatActivity {
             String description = "Stopwatch running ";
             int importance = NotificationManager.IMPORTANCE_DEFAULT;
 
-            NotificationChannel channel = new NotificationChannel("stopwatchId", name, importance);
+            NotificationChannel channel = new NotificationChannel(getString(R.string.stopwatch_notification_id), name, importance);
             channel.setDescription(description);
 
             NotificationManager manager = getSystemService(NotificationManager.class);
@@ -179,12 +181,23 @@ public class StopwatchActivity extends AppCompatActivity {
     public void onStop(){
         super.onStop();
 
+        Intent simpleIntent;
+        PendingIntent pendingIntent;
+
         if(running) {
 
-            NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "stopwatchId")
+            simpleIntent = new Intent(this, StopwatchActivity.class);
+            simpleIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
+            pendingIntent = PendingIntent.getActivity(this, 0, simpleIntent, 0);
+
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(this, getString(R.string.stopwatch_notification_id))
                     .setSmallIcon(R.drawable.ic_stopwatch)
                     .setContentTitle("Stopwatch")
                     .setContentText("Stopwatch running")
+                    .setContentIntent(pendingIntent)
+                    .setAutoCancel(true)
+                    .setColorized(true)
                     .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
             NotificationManagerCompat managerCompat = NotificationManagerCompat.from(this);

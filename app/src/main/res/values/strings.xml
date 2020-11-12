@@ -20,8 +20,11 @@
     </string>
 
     <string name="developer">Developer : Tumi Sibiya</string>
-    <string name="contact_nunmber">Contack No. : 0676494225</string>
-    <string name="email_adress">Email : TumiSibiya.m@gmail.com</string>
+    <string name="contact_number">Contack No. : 0676494225</string>
+    <string name="email_address">Email : TumiSibiya.m@gmail.com</string>
+
+    <string name="stopwatch_notification_id">stopwatch_id</string>
+    <string name="timer_time_up_notification_id">timer_time_up_id</string>>
 
 
 </resources>

@@ -52,14 +52,14 @@
             android:id="@+id/contactsNumber"
             android:layout_width="match_parent"
             android:layout_height="30dp"
-            android:text="@string/contact_nunmber"
+            android:text="@string/contact_number"
             android:textSize="16dp" />
 
         <TextView
             android:id="@+id/email_adress"
             android:layout_width="match_parent"
             android:layout_height="30dp"
-            android:text="@string/email_adress"
+            android:text="@string/email_address"
             android:textSize="16dp" />
 
     </LinearLayout>
