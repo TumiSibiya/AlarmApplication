@@ -71,6 +71,7 @@
 
         android:text="@string/resetbuttonpress"
         android:textColor="@android:color/black"
+
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
 

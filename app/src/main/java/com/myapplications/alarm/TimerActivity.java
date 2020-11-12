@@ -7,8 +7,10 @@ import androidx.core.app.NotificationManagerCompat;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 
 import android.content.SharedPreferences;
+import android.content.Intent;
 
 import android.os.Bundle;
 import android.os.Build;
@@ -382,10 +384,16 @@ public class TimerActivity extends AppCompatActivity {
 
     public void notifyUser(){
 
-        final NotificationCompat.Builder notificationCompatBuilder = new NotificationCompat.Builder(this,  "countdownFinished")
+        Intent timerActivityIntent = new Intent(this, TimerActivity.class);
+        timerActivityIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, timerActivityIntent, 0);
+
+        final NotificationCompat.Builder notificationCompatBuilder = new NotificationCompat.Builder(this,  getString(R.string.timer_countdown_channel_id))
                 .setSmallIcon(R.drawable.ice_timer)
                 .setContentTitle("Timer")
                 .setContentText("Countdown timer finished")
+                .setContentIntent(pendingIntent)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
         final NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(this);
@@ -399,7 +407,7 @@ public class TimerActivity extends AppCompatActivity {
             String description = "Countdown finished";
             int importance = NotificationManager.IMPORTANCE_DEFAULT;
 
-            NotificationChannel channel = new NotificationChannel("countdownFinished", name, importance);
+            NotificationChannel channel = new NotificationChannel(getString(R.string.timer_countdown_channel_id), name, importance);
             channel.setDescription(description);
 
             NotificationManager notificationManager = getSystemService(NotificationManager.class);

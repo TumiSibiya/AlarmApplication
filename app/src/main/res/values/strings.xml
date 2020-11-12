@@ -24,7 +24,8 @@
     <string name="email_address">Email : TumiSibiya.m@gmail.com</string>
 
     <string name="stopwatch_notification_id">stopwatch_id</string>
-    <string name="timer_time_up_notification_id">timer_time_up_id</string>>
+    <string name="timer_time_up_notification_id">timer_time_up_id</string>
+    <string name="timer_countdown_channel_id">timer_countdown_channel_id</string>
 
 
 </resources>
