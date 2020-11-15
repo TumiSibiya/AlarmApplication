@@ -1,21 +1,22 @@
 package  com.myapplications.alarm;
 
+import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.util.Log;
 
+import android.os.SystemClock;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
+import android.util.Log;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -31,6 +32,8 @@ public class ClockActivity extends AppCompatActivity {
     private final String TAG = ClockActivity.class.getName();
 
     CountDownTimer countDownTimer;
+    long start_time_in_millis = (10) * 1000;// (minutes a typical day) * milliseconds
+    long time_left_in_millis;
 
     TextView digitalTimeTextView;
     TextView dateTextView;
@@ -41,6 +44,7 @@ public class ClockActivity extends AppCompatActivity {
 
     Intent switchActivity;
 
+    ProgressBar clockProgressBar;
 
     SimpleDateFormat simpleTimeFormat;
     SimpleDateFormat simpleDateFormat;
@@ -77,6 +81,10 @@ public class ClockActivity extends AppCompatActivity {
         buttonAccessTimer = findViewById(R.id.buttonAccessTimerId);
         buttonAccessStopwatch = findViewById(R.id.buttonAccessStopwatchId);
 
+        clockProgressBar = findViewById(R.id.clock_progressBar_id);
+        clockProgressBar.setMax((int)start_time_in_millis);
+
+
         //switchActivityButtons
        buttonAccessTimer.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,7 +109,9 @@ public class ClockActivity extends AppCompatActivity {
         dateTextView.setText(String.valueOf(currentDate));
 
         //updaters and CountDownTimer
-        countDownTimer = new CountDownTimer(System.currentTimeMillis(), 100) {
+        countDownTimer = new CountDownTimer(SystemClock.elapsedRealtime(), 1000) {
+
+
             @Override
             public void onTick(long millisUntilFinished) {
                 updateTime();
@@ -109,6 +119,7 @@ public class ClockActivity extends AppCompatActivity {
 
             @Override
             public void onFinish() {
+
                 updateTime();
             }
 
@@ -117,6 +128,7 @@ public class ClockActivity extends AppCompatActivity {
     }
 
     public void updateTime() {
+
 
         //String instantPatten = request);
         String instantPatten = accessingChanges.gettPatten();
@@ -132,6 +144,9 @@ public class ClockActivity extends AppCompatActivity {
             digitalTimeTextView.setText(instantTime);
 
         }
+
+
+        //Log.d(TAG, ".....................Nothing here");
 
     }
 

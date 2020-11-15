@@ -1,4 +1,5 @@
 package com.myapplications.alarm;
+import  com.myapplications.alarm.ClockBaseApplication;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -82,8 +83,6 @@ public class TimerActivity extends AppCompatActivity {
 
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         setTitle("Timer");
-
-        createNotificationChannel();
 
         Log.d(TAG,"INSIDE CREATE");
 
@@ -389,33 +388,18 @@ public class TimerActivity extends AppCompatActivity {
 
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, timerActivityIntent, 0);
 
-        final NotificationCompat.Builder notificationCompatBuilder = new NotificationCompat.Builder(this,  getString(R.string.timer_countdown_channel_id))
+         final NotificationCompat.Builder notificationCompatBuilder = new NotificationCompat.Builder(this, new ClockBaseApplication().TIMER_CHANNEL_ID)
                 .setSmallIcon(R.drawable.ice_timer)
-                .setContentTitle("Timer")
-                .setContentText("Countdown timer finished")
+                .setContentTitle(getString(R.string.timer_notification_content_title))
+                .setContentText(getString(R.string.timer_notification_time_up__text))
                 .setContentIntent(pendingIntent)
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+                .setChannelId(getString(R.string.timer_time_up_notification_channel_id))
+                .setPriority(NotificationCompat.PRIORITY_HIGH);
 
         final NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(this);
         notificationManagerCompat.notify(10, notificationCompatBuilder.build());
 
     }
-    public void createNotificationChannel(){
-
-        if(Build.VERSION.SDK_INT >=  Build.VERSION_CODES.O){
-            CharSequence name = "Timer";
-            String description = "Countdown finished";
-            int importance = NotificationManager.IMPORTANCE_DEFAULT;
-
-            NotificationChannel channel = new NotificationChannel(getString(R.string.timer_countdown_channel_id), name, importance);
-            channel.setDescription(description);
-
-            NotificationManager notificationManager = getSystemService(NotificationManager.class);
-            notificationManager.createNotificationChannel(channel);
-
-        }
-    }
-
     //this feature requires attentions
     //delete android:screenOrientation="portrait" on Manifest for default features or go Auto
 

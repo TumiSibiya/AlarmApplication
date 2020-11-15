@@ -23,9 +23,20 @@
     <string name="contact_number">Contack No. : 0676494225</string>
     <string name="email_address">Email : TumiSibiya.m@gmail.com</string>
 
-    <string name="stopwatch_notification_id">stopwatch_id</string>
-    <string name="timer_time_up_notification_id">timer_time_up_id</string>
-    <string name="timer_countdown_channel_id">timer_countdown_channel_id</string>
 
+    <string name="Stopwatch_notification_channel_id">stopwatchChannlId</string>
+    <string name="stopwatch_notification_id">stopwatch_id</string>
+
+    <string name="stopwatch_notification_content_title_">Stopwatch</string>
+    <string name="stopwatch_notification_content_text">stopwatch running </string>
+
+    <string name="timer_time_up_notification_channel_id">timerTimeUpChannelIdz</string>
+    <string name="timer_time_up_notification_id">timerTimeUpNotificationId</string>
+    <string name="timer_countdown_channel_id">timerCountDownChannel_Id</string>
+    <string name="timer_countdown_notification_id">timerCountdownNotification_id</string>
+
+    <string name="timer_notification_content_title">Timer</string>
+    <string name="timer_notification_background_running_text">Elapsed : </string>>
+    <string name="timer_notification_time_up__text">Time up</string>
 
 </resources>
