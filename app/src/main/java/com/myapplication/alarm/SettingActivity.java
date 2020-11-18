@@ -1,4 +1,4 @@
-package com.myapplications.alarm;
+package com.myapplication.alarm;
 
 import android.content.Intent;
 import android.content.SharedPreferences;

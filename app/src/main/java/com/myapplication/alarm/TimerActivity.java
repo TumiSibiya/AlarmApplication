@@ -1,18 +1,17 @@
-package com.myapplications.alarm;
-import  com.myapplications.alarm.ClockBaseApplication;
+package com.myapplication.alarm;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
+import android.app.Notification;
 import android.app.PendingIntent;
 
 import android.content.SharedPreferences;
 import android.content.Intent;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Build;
 import android.os.CountDownTimer;
@@ -145,7 +144,6 @@ public class TimerActivity extends AppCompatActivity {
 
 
                 if(hourString.length() == 0){
-
 
                     if (minuteString.length() == 0) {
 
@@ -385,16 +383,26 @@ public class TimerActivity extends AppCompatActivity {
 
         Intent timerActivityIntent = new Intent(this, TimerActivity.class);
         timerActivityIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        PendingIntent pendingActivityIntent = PendingIntent.getActivity(this, 0, timerActivityIntent, 0);
 
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, timerActivityIntent, 0);
+        Intent actionIntent = new Intent(this, ApplicationBroadcastReceiver.class);
+        actionIntent.putExtra("restart", "restartCountdownTimer");
+        PendingIntent pendingActionIntent = PendingIntent.getBroadcast(this,
+                0, actionIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-         final NotificationCompat.Builder notificationCompatBuilder = new NotificationCompat.Builder(this, new ClockBaseApplication().TIMER_CHANNEL_ID)
-                .setSmallIcon(R.drawable.ice_timer)
-                .setContentTitle(getString(R.string.timer_notification_content_title))
-                .setContentText(getString(R.string.timer_notification_time_up__text))
-                .setContentIntent(pendingIntent)
-                .setChannelId(getString(R.string.timer_time_up_notification_channel_id))
-                .setPriority(NotificationCompat.PRIORITY_HIGH);
+         final NotificationCompat.Builder notificationCompatBuilder = new NotificationCompat.Builder(
+                 this, getString(R.string.timer_time_up_notification_channel_id))
+
+                 .setSmallIcon(R.drawable.ice_timer)
+                 .setContentTitle(getString(R.string.timer_notification_content_title))
+                 .setContentText(getString(R.string.timer_notification_time_up__text))
+                 .setContentIntent(pendingActivityIntent)
+                 .addAction(R.drawable.ice_timer,
+                         getString(R.string.restartButtonPress), pendingActionIntent)
+                 .setChannelId(getString(R.string.timer_time_up_notification_channel_id))
+                 .setColor(Color.BLUE)
+                 .setCategory(Notification.CATEGORY_ALARM)
+                 .setPriority(NotificationCompat.PRIORITY_HIGH);
 
         final NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(this);
         notificationManagerCompat.notify(10, notificationCompatBuilder.build());

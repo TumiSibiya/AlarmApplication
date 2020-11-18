@@ -1,4 +1,4 @@
-package com.myapplications.alarm;
+package com.myapplication.alarm;
 
 /*
  * Thins Activity uses chronometer to simulate StopwatchActivity
@@ -11,16 +11,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
+import android.app.Notification;
 import android.app.PendingIntent;
 
 import android.content.SharedPreferences;
 import android.content.Intent;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.SystemClock;
-import android.os.Build;
 
 import android.util.Log;
 import android.view.View;
@@ -54,8 +53,6 @@ public class StopwatchActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setTitle("Stopwatch");
-
-        createNotification();
 
         TextView ignoreThisTextView = findViewById(R.id.textView2);
 
@@ -159,45 +156,34 @@ public class StopwatchActivity extends AppCompatActivity {
         Log.d(TAG, "chronometer ElapsedReal Time " + chronometerElapsedRealTime);
     }
 
-    public void createNotification(){
-
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ){
-
-            CharSequence name = "Stopwatch";
-            String description = "Stopwatch running ";
-            int importance = NotificationManager.IMPORTANCE_DEFAULT;
-
-            NotificationChannel channel = new NotificationChannel(getString(R.string.stopwatch_notification_id), name, importance);
-            channel.setDescription(description);
-
-            NotificationManager manager = getSystemService(NotificationManager.class);
-            manager.createNotificationChannel(channel);
-
-        }
-    }
-
-
     @Override
     public void onStop(){
         super.onStop();
 
-        Intent simpleIntent;
-        PendingIntent pendingIntent;
+        Intent activityIntent;
+        PendingIntent pendingActivityIntent;
 
         if(running) {
 
-            simpleIntent = new Intent(this, StopwatchActivity.class);
-            simpleIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            activityIntent = new Intent(this, StopwatchActivity.class);
+            activityIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
-            pendingIntent = PendingIntent.getActivity(this, 0, simpleIntent, 0);
+            pendingActivityIntent = PendingIntent.getActivity(this, 0, activityIntent, 0);
+
+            Intent actionIntent = new Intent(this, ApplicationBroadcastReceiver.class);
+            PendingIntent pendingActionIntent = PendingIntent.getBroadcast(
+                    this, 0, actionIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
             NotificationCompat.Builder builder = new NotificationCompat.Builder(this, getString(R.string.stopwatch_notification_id))
                     .setSmallIcon(R.drawable.ic_stopwatch)
                     .setContentTitle("Stopwatch")
                     .setContentText("Stopwatch running")
-                    .setContentIntent(pendingIntent)
+                    .setContentIntent(pendingActivityIntent)
+                    .addAction(R.drawable.ic_stopwatch, getString(R.string.pausebuttonpress), pendingActionIntent)
                     .setAutoCancel(true)
-                    .setColorized(true)
+                    .setOnlyAlertOnce(true)
+                    .setColor(Color.RED)
+                    .setCategory(Notification.CATEGORY_PROGRESS)
                     .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
             NotificationManagerCompat managerCompat = NotificationManagerCompat.from(this);

@@ -1,4 +1,4 @@
-package  com.myapplications.alarm;
+package  com.myapplication.alarm;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;

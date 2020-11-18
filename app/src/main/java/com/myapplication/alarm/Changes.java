@@ -1,6 +1,4 @@
-package  com.myapplications.alarm;
-
-import android.util.Log;
+package  com.myapplication.alarm;
 
 public class Changes {
 

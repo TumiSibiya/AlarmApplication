@@ -4,6 +4,7 @@
     <string name="pausebuttonpress">Pause</string>
     <string name="resumeButtonPress">Resume</string>>
     <string name="resetbuttonpress">Reset</string>
+    <string name="restartButtonPress">Restart</string>
 
     <string name="accessStopwatch">Stopwatch</string>>
     <string name="accessTimer">Timer</string>
@@ -30,7 +31,7 @@
     <string name="stopwatch_notification_content_title_">Stopwatch</string>
     <string name="stopwatch_notification_content_text">stopwatch running </string>
 
-    <string name="timer_time_up_notification_channel_id">timerTimeUpChannelIdz</string>
+    <string name="timer_time_up_notification_channel_id">timerTimeUpChannelId</string>
     <string name="timer_time_up_notification_id">timerTimeUpNotificationId</string>
     <string name="timer_countdown_channel_id">timerCountDownChannel_Id</string>
     <string name="timer_countdown_notification_id">timerCountdownNotification_id</string>

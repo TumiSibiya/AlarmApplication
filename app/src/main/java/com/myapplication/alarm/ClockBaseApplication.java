@@ -1,22 +1,19 @@
-package com.myapplications.alarm;
+package com.myapplication.alarm;
 
 import android.app.Application;
-import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 
 import android.os.Build;
 
-public class ClockBaseApplication extends Application{
+public class ClockBaseApplication extends Application {
 
-     final String TIMER_CHANNEL_ID = "timerTimeUpChannelIdz";
-     final String STOPWATCH_CHANNEL_ID = "stopwatchChannlId";
+     public static final String TIMER_CHANNEL_ID = "timerTimeUpChannelId";
+     public final String STOPWATCH_CHANNEL_ID = "stopwatchChannlId";
 
-
-    @Override
+     @Override
     public void onCreate(){
-        super.onCreate();
-
+       super.onCreate();
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
 
            //Time up channel

@@ -1,10 +1,9 @@
-package com.myapplications.alarm;
+package com.myapplication.alarm;
 
 import androidx.appcompat.app.AppCompatActivity;
-import android.app.Activity;
+
 import android.os.Bundle;
 
-import android.widget.TextView;
 import android.widget.Button;
 
 import android.view.View;
