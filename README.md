@@ -35,3 +35,7 @@ together with its interface.
 * NotificationManager
 * NotificationCompat
 * Broadcasts Receiver
+
+# Want to check it out ? 
+1 Just fork this repo
+2 Check out Android Dev on how to run from Android Studio https://developer.android.com/training/basics/firstapp/running-app 
