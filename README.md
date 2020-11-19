@@ -37,5 +37,5 @@ together with its interface.
 * Broadcasts Receiver
 
 # Want to check it out ? 
-1 Just fork this repo
-2 Check out Android Dev on how to run from Android Studio https://developer.android.com/training/basics/firstapp/running-app 
+* Just fork this repo
+* Check out Android Dev on how to run from Android Studio https://developer.android.com/training/basics/firstapp/running-app 
