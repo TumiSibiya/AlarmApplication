@@ -41,6 +41,14 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.Dialog.MinWidth"/>
 
-        <receiver android:name=".ApplicationBroadcastReceiver"/>
+        <receiver android:name=".ApplicationBroadcastReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="alertUser"/>
+                <action android:name="restartTimer"/>
+                <action android:name="restStopwatch"/>
+            </intent-filter>>
+        </receiver>
     </application>
 </manifest>

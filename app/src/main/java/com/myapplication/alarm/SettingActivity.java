@@ -57,13 +57,7 @@ public class SettingActivity extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton button, boolean checked) {
 
 
-                if (checked) {
-                    clockSecondsChecked = true;
-
-                } else {
-                    clockSecondsChecked = false;
-
-                }
+                clockSecondsChecked = checked;
                 Toast.makeText(SettingActivity.this, "Seconds : " + clockSecondsChecked +
                         ",change " + accessChanges.gettPatten(), Toast.LENGTH_SHORT).show();
 

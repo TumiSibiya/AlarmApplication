@@ -15,7 +15,7 @@ public class Changes {
     }
 
     public String gettPatten(){
-        return tPatten.toString();
+        return tPatten;
     }
 
     public void settPatten(String tPatten) {
@@ -25,7 +25,7 @@ public class Changes {
 
 
     public String getdPatten() {
-        return dPatten.toString();
+        return dPatten;
     }
 
     public void setdPatten(String dPatten) {

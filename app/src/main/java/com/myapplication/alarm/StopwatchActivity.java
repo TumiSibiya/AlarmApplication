@@ -7,17 +7,21 @@ package com.myapplication.alarm;
 *
 * */
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
 import android.app.Notification;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 
 import android.content.SharedPreferences;
 import android.content.Intent;
 
 import android.graphics.Color;
+import android.media.SoundPool;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
 
@@ -156,6 +160,7 @@ public class StopwatchActivity extends AppCompatActivity {
         Log.d(TAG, "chronometer ElapsedReal Time " + chronometerElapsedRealTime);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onStop(){
         super.onStop();
@@ -163,32 +168,10 @@ public class StopwatchActivity extends AppCompatActivity {
         Intent activityIntent;
         PendingIntent pendingActivityIntent;
 
-        if(running) {
+        Intent actionIntent;
+        PendingIntent pendingActionIntent;
 
-            activityIntent = new Intent(this, StopwatchActivity.class);
-            activityIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-
-            pendingActivityIntent = PendingIntent.getActivity(this, 0, activityIntent, 0);
-
-            Intent actionIntent = new Intent(this, ApplicationBroadcastReceiver.class);
-            PendingIntent pendingActionIntent = PendingIntent.getBroadcast(
-                    this, 0, actionIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-            NotificationCompat.Builder builder = new NotificationCompat.Builder(this, getString(R.string.stopwatch_notification_id))
-                    .setSmallIcon(R.drawable.ic_stopwatch)
-                    .setContentTitle("Stopwatch")
-                    .setContentText("Stopwatch running")
-                    .setContentIntent(pendingActivityIntent)
-                    .addAction(R.drawable.ic_stopwatch, getString(R.string.pausebuttonpress), pendingActionIntent)
-                    .setAutoCancel(true)
-                    .setOnlyAlertOnce(true)
-                    .setColor(Color.RED)
-                    .setCategory(Notification.CATEGORY_PROGRESS)
-                    .setPriority(NotificationCompat.PRIORITY_DEFAULT);
-
-            NotificationManagerCompat managerCompat = NotificationManagerCompat.from(this);
-            managerCompat.notify(110, builder.build());
-        }
+        NotificationCompat.Builder builder;
 
         SharedPreferences prefs = getSharedPreferences("prefs", MODE_PRIVATE);
         SharedPreferences.Editor simpleEditor = prefs.edit();
@@ -199,6 +182,38 @@ public class StopwatchActivity extends AppCompatActivity {
         simpleEditor.putBoolean("running", running);
 
         simpleEditor.apply();
+
+
+        if(running) {
+
+            activityIntent = new Intent(this, StopwatchActivity.class);
+            activityIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            pendingActivityIntent = PendingIntent.getActivity(this, 0, activityIntent, 0);
+
+            actionIntent = new Intent(this, ApplicationBroadcastReceiver.class);
+            actionIntent.setAction("stopChronometer");
+            pendingActionIntent = PendingIntent.getBroadcast(
+                    this, 0, actionIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+            builder = new NotificationCompat.Builder(this, getString(R.string.stopwatch_notification_id))
+
+                    .setSmallIcon(R.drawable.ic_stopwatch)
+                    .setContentTitle("Stopwatch")
+                    .setContentText("Stopwatch running" + " " + chronometer.getText())
+                    .setContentIntent(pendingActivityIntent)
+                    //.addAction(R.drawable.ic_baseline_stop_icon, getString(R.string.stopButtonPress), pendingActionIntent)
+                    //.addAction(R.drawable.ic_baseline_reset_icon, getString(R.string.resetbuttonpress),pendingActionIntent)
+                    .setOngoing(true)
+                    .setAutoCancel(true)
+                    .setOnlyAlertOnce(true)
+                    .setColor(Color.RED)
+                    .setCategory(Notification.CATEGORY_PROGRESS)
+                    .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+            NotificationManagerCompat managerCompat = NotificationManagerCompat.from(this);
+            managerCompat.notify(110, builder.build());
+        }
+
 
     }
 
@@ -214,7 +229,7 @@ public class StopwatchActivity extends AppCompatActivity {
         running = sharedPreferences.getBoolean("running", running);
 
         //just keeping the chronometer on previous time
-        chronometer.setBase(SystemClock.elapsedRealtime() - pauseOffSet);;
+        chronometer.setBase(SystemClock.elapsedRealtime() - pauseOffSet);
 
         if(running){
 
