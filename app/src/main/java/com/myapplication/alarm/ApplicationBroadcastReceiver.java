@@ -1,19 +1,37 @@
 package com.myapplication.alarm;
+import com.myapplication.alarm.TimerActivity;
+import com.myapplication.alarm.StopwatchActivity;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+
+
+import android.os.SystemClock;
 import android.util.Log;
-import android.widget.Toast;
+
 public class ApplicationBroadcastReceiver extends BroadcastReceiver{
 
+    Intent intent;
     @Override
-    public void onReceive(Context context, Intent intent){
-        Log.d(ApplicationBroadcastReceiver.class.getName(), "//////////////////////////      ////////  IM HERE");
-        String message = intent.getStringExtra("restart");
+    public void onReceive(Context context, Intent intent) {
+        String name = intent.getAction();
+            Log.d(StopwatchActivity.class.getName(), "..............."+ name);
 
-        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+            Intent go = new Intent(context, StopwatchActivity.class);
 
+            if("alert".equalsIgnoreCase(intent.getAction())){
 
+                Ringtone ringtone = RingtoneManager.getRingtone(
+                        context, RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM));
+
+                ringtone.play();
+                SystemClock.sleep(200);
+
+            }
     }
+
 }

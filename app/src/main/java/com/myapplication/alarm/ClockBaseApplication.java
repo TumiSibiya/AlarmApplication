@@ -5,11 +5,13 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 
 import android.os.Build;
+import android.util.Log;
 
 public class ClockBaseApplication extends Application {
 
-     public static final String TIMER_CHANNEL_ID = "timerTimeUpChannelId";
-     public final String STOPWATCH_CHANNEL_ID = "stopwatchChannlId";
+     private static final String TIMER_CHANNEL_ID = "timerTimeUpChannelId";
+     private final String STOPWATCH_CHANNEL_ID = "stopwatchChannlId";
+     private final String ALARM_CHANNEL_ID = "alarmChannelId";//String.valueOf(R.string.alarm_notification_channel_id);""
 
      @Override
     public void onCreate(){
@@ -43,6 +45,22 @@ public class ClockBaseApplication extends Application {
 
             NotificationManager stopwatchManager = getSystemService(NotificationManager.class);
             stopwatchManager.createNotificationChannel(stopwatchBackgroundRunningChannel);
+
+
+            //alarm channel registration
+
+            CharSequence alarmChannelName = getString(R.string.alarm_notification_content_title);
+            String alarmDescription = getString(R.string.alarm_notification_content_text);
+            int alarmImpartance = NotificationManager.IMPORTANCE_DEFAULT;
+
+            NotificationChannel alarmNotificationChannel = new NotificationChannel(
+                    ALARM_CHANNEL_ID, alarmChannelName, alarmImpartance);
+            alarmNotificationChannel.setDescription(alarmDescription);
+
+            NotificationManager alarmNotificationManager = getSystemService(NotificationManager.class);
+            Log.d(getApplicationContext().getApplicationContext().getPackageName(), "........................testing......"+ alarmNotificationManager);
+            alarmNotificationManager.createNotificationChannel(alarmNotificationChannel);
+
         }
     }
 }
