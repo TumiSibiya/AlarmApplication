@@ -6,7 +6,8 @@
     <string name="resetbuttonpress">Reset</string>
 
     <string name="accessStopwatch">Stopwatch</string>>
-    <string name="accessTimer">Timer</string>>
+    <string name="accessTimer">Timer</string>
+    <string name="no_time">No Time</string>>
 
 
 </resources>
