@@ -13,14 +13,12 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
 import android.app.Notification;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 
 import android.content.SharedPreferences;
 import android.content.Intent;
 
 import android.graphics.Color;
-import android.media.SoundPool;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
@@ -190,7 +188,7 @@ public class StopwatchActivity extends AppCompatActivity {
             activityIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             pendingActivityIntent = PendingIntent.getActivity(this, 0, activityIntent, 0);
 
-            actionIntent = new Intent(this, ApplicationBroadcastReceiver.class);
+            actionIntent = new Intent(this, AppBroadcastReceiver.class);
             actionIntent.setAction("stopChronometer");
             pendingActionIntent = PendingIntent.getBroadcast(
                     this, 0, actionIntent, PendingIntent.FLAG_UPDATE_CURRENT);

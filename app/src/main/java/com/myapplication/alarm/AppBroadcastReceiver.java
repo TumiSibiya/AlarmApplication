@@ -13,7 +13,7 @@ import android.media.RingtoneManager;
 import android.os.SystemClock;
 import android.util.Log;
 
-public class ApplicationBroadcastReceiver extends BroadcastReceiver{
+public class AppBroadcastReceiver extends BroadcastReceiver{
 
     Intent intent;
     @Override

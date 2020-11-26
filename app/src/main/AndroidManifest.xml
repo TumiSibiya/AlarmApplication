@@ -3,7 +3,7 @@
     package="com.myapplication.alarm">
 
     <application
-        android:name="com.myapplication.alarm.ClockBaseApplication"
+        android:name="com.myapplication.alarm.AppBaseApplication"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
@@ -41,7 +41,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.Dialog.MinWidth"/>
 
-        <receiver android:name=".ApplicationBroadcastReceiver"
+        <receiver android:name=".AppBroadcastReceiver"
             android:enabled="true"
             android:exported="true">
             <intent-filter>

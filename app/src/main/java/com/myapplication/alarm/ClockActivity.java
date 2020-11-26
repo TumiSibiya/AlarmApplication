@@ -1,25 +1,21 @@
 package  com.myapplication.alarm;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.solver.state.helpers.AlignHorizontallyReference;
-import androidx.core.app.AlarmManagerCompat;
+
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
-import android.app.Application;
 import android.app.Notification;
 import android.app.PendingIntent;
-import android.content.Context;
+
 import android.content.Intent;
 import android.content.SharedPreferences;
 
 import android.os.Bundle;
-import android.os.Build;
-
 import android.os.CountDownTimer;
 import android.os.SystemClock;
 
-import android.app.AlarmManager;
+import android.media.MediaPlayer;
 
 import android.view.View;
 import android.view.Menu;
@@ -208,6 +204,8 @@ public class ClockActivity extends AppCompatActivity {
         updateTime();
 
         //alarm setup
+        //
+        /*
         Intent activityIntent = new Intent(this, ClockActivity.class);
         activityIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
@@ -227,16 +225,38 @@ public class ClockActivity extends AppCompatActivity {
 
         NotificationManagerCompat alarmNotificationManagetCompat = NotificationManagerCompat.from(this);
         alarmNotificationManagetCompat.notify(987, alarmNotificationBuilder);
+*/
 
 
-        //alarm things
-        Intent alarmIntent = new Intent(this, ApplicationBroadcastReceiver.class);
-        alarmIntent.setAction("alertUser");
-        PendingIntent alarmManagerPendingIntent = PendingIntent.getBroadcast(
-                this, 0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, 2000, 20000, alarmManagerPendingIntent);
+
+
+
+
+
+
+        Intent alarmActivityIntent = new Intent(this, AppBaseApplication.class);
+        alarmActivityIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
+        PendingIntent alarmPendingIntent = PendingIntent.getActivity(this, 0, alarmActivityIntent, 0);
+
+        Intent alarmActionIntent = new Intent(this, AppBroadcastReveiver.class);
+        setAction("stopRinging");
+
+        PendingIntent alarmActionPendingIntent = PendingIntent.getBroadcast(this, 0, alarmActionIntent, 0);
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, getString(R.string.alarm_notification_channel_id))
+                .setSmallIcon(R.drawable.ic_baseline_reset_icon)
+                .setContentTitle(getString(R.string.alarm_notification_content_title))
+                .setContentText(getString(R.string.alarm_notification_content_text))
+                .setContentIntent(alarmPendingIntent)
+                .addAction(this, 0, alarmPendingIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                .setOngoing(true)
+                .setAutoCancel(true)
+                .setPriority(NotificationCompat.PRIORITY_HIGH);
+
+        NotificationManagerCompat managerCompat = NotificationManagerCompat.from(this);
+        managerCompat.notify(77, builder.build());
 
     }
 

@@ -7,7 +7,7 @@ import android.app.NotificationManager;
 import android.os.Build;
 import android.util.Log;
 
-public class ClockBaseApplication extends Application {
+public class AppBaseApplication extends Application {
 
      private static final String TIMER_CHANNEL_ID = "timerTimeUpChannelId";
      private final String STOPWATCH_CHANNEL_ID = "stopwatchChannlId";

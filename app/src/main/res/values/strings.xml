@@ -41,6 +41,7 @@
     <string name="timer_notification_time_up__text">Time up</string>
     <string name="stopButtonPress">Stop</string>
 
+    <string name="alarm_notification__id">alarmNotificationlId</string>
     <string name="alarm_notification_channel_id">alarmChannelId</string>
     <string name="alarm_notification_content_title">Alarm</string>
     <string name="alarm_notification_content_text">Alarm ringing</string>
