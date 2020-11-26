@@ -1,13 +1,12 @@
 <resources>
-    <string name="app_name">Time</string>
+    <string name="app_name">Clock</string>
     <string name="startbuttonpress">Start</string>
     <string name="pausebuttonpress">Pause</string>
     <string name="resumeButtonPress">Resume</string>>
     <string name="resetbuttonpress">Reset</string>
+    <string name="restartButtonPress">Restart</string>
 
     <string name="accessStopwatch">Stopwatch</string>>
-    <string name="accessTimer">Timer</string>
-    <string name="no_time">No Time</string>>
     <string name="accessTimer">Timer</string>
     <string name="no_date">No Date</string>
     <string name="hint_minute">minute</string>
@@ -26,5 +25,24 @@
     <string name="email_address">Email : TumiSibiya.m@gmail.com</string>
 
 
+    <string name="Stopwatch_notification_channel_id">stopwatchChannlId</string>
+    <string name="stopwatch_notification_id">stopwatch_id</string>
+
+    <string name="stopwatch_notification_content_title_">Stopwatch</string>
+    <string name="stopwatch_notification_content_text">stopwatch running </string>
+
+    <string name="timer_time_up_notification_channel_id">timerTimeUpChannelId</string>
+    <string name="timer_time_up_notification_id">timerTimeUpNotificationId</string>
+    <string name="timer_countdown_channel_id">timerCountDownChannel_Id</string>
+    <string name="timer_countdown_notification_id">timerCountdownNotification_id</string>
+
+    <string name="timer_notification_content_title">Timer</string>
+    <string name="timer_notification_background_running_text">Elapsed : </string>>
+    <string name="timer_notification_time_up__text">Time up</string>
+    <string name="stopButtonPress">Stop</string>
+
+    <string name="alarm_notification_channel_id">alarmChannelId</string>
+    <string name="alarm_notification_content_title">Alarm</string>
+    <string name="alarm_notification_content_text">Alarm ringing</string>
 
 </resources>
