@@ -191,10 +191,8 @@ public class ClockActivity extends AppCompatActivity {
 
         return true;
     }
-
-
     @Override
-    public void onStart() {
+    public void onStart(){
         super.onStart();
 
         SharedPreferences sharedPreferences = getSharedPreferences("prefs", MODE_PRIVATE);
@@ -227,21 +225,13 @@ public class ClockActivity extends AppCompatActivity {
         alarmNotificationManagetCompat.notify(987, alarmNotificationBuilder);
 */
 
-
-
-
-
-
-
-
-
         Intent alarmActivityIntent = new Intent(this, AppBaseApplication.class);
         alarmActivityIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
         PendingIntent alarmPendingIntent = PendingIntent.getActivity(this, 0, alarmActivityIntent, 0);
 
-        Intent alarmActionIntent = new Intent(this, AppBroadcastReveiver.class);
-        setAction("stopRinging");
+        Intent alarmActionIntent = new Intent(this, AppBroadcastReceiver.class);
+        alarmActionIntent.setAction("stopRinging");
 
         PendingIntent alarmActionPendingIntent = PendingIntent.getBroadcast(this, 0, alarmActionIntent, 0);
 
@@ -250,7 +240,7 @@ public class ClockActivity extends AppCompatActivity {
                 .setContentTitle(getString(R.string.alarm_notification_content_title))
                 .setContentText(getString(R.string.alarm_notification_content_text))
                 .setContentIntent(alarmPendingIntent)
-                .addAction(this, 0, alarmPendingIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                .addAction(R.drawable.ic_baseline_reset_icon, "SHITY", alarmPendingIntent)
                 .setOngoing(true)
                 .setAutoCancel(true)
                 .setPriority(NotificationCompat.PRIORITY_HIGH);

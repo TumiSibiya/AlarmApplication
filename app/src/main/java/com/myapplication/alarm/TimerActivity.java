@@ -385,7 +385,7 @@ public class TimerActivity extends AppCompatActivity {
         timerActivityIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         PendingIntent pendingActivityIntent = PendingIntent.getActivity(this, 0, timerActivityIntent, 0);
 
-        Intent actionIntent = new Intent(this, ApplicationBroadcastReceiver.class);
+        Intent actionIntent = new Intent(this, AppBroadcastReceiver.class);
         actionIntent.putExtra("restart", "restartCountdownTimer");
         PendingIntent pendingActionIntent = PendingIntent.getBroadcast(this,
                 0, actionIntent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -476,7 +476,6 @@ public class TimerActivity extends AppCompatActivity {
         updateInterface();
         timerProgressBar.setMax((int)timerProgressBarMax);
         timerProgressBar.setProgress((int)timerProgressBarCurrentTime);
-
 
     }
 }
